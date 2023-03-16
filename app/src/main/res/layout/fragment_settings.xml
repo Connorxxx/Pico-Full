@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <RadioGroup
+        android:id="@+id/rg_buzz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -35,12 +36,14 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_buzz_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/radiobutton_main"
             android:button="@null" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_buzz_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"

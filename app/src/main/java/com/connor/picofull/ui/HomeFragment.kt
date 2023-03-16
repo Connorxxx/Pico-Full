@@ -37,70 +37,13 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        setEnergy()
-        setRate()
-        binding.tvPulse.text = getString(R.string.pulse, viewModel.homeData.pulse)
-        binding.tvSpot.text = getString(R.string.spot, viewModel.homeData.spot)
-        binding.toggleSwitch.isChecked = viewModel.homeData.switch
-        binding.seekRedLight.progress = viewModel.homeData.readLight
-        viewModel.homeData.waveId?.let {
-            binding.toggleGroup.check(it)
-        }
+        initUIState()
+        setOnClick()
+        initScope()
+        return binding.root
+    }
 
-
-        binding.toggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-            if (isChecked) {
-                viewModel.homeData.waveId = checkedId
-                when (checkedId) {
-                    R.id.btn_1064 -> viewModel.sendHex(UPLOAD_1064)
-                    R.id.btn_523 -> viewModel.sendHex(UPLOAD_532)
-                }
-            }
-        }
-        binding.btnEnergyPlus.setOnClickListener { viewModel.sendHex(UPLOAD_ENERGY_PLUS) }
-        binding.btnEnergyMinus.setOnClickListener { viewModel.sendHex(UPLOAD_ENERGY_MINUS) }
-        binding.btnRatePlus.setOnClickListener {
-            if (viewModel.homeData.rate >= 10) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RATE_XX + (viewModel.homeData.rate + 1).getHexString())
-            viewModel.homeData.rate++
-        }
-        binding.btnRateMinus.setOnClickListener {
-            if (viewModel.homeData.rate <= 1) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RATE_XX + (viewModel.homeData.rate - 1).getHexString())
-            viewModel.homeData.rate--
-        }
-        binding.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.homeData.switch = isChecked
-            if (viewModel.homeData.switch) viewModel.sendHex(UPLOAD_ON)
-            else viewModel.sendHex(UPLOAD_OFF)
-        }
-        binding.btnFlash.setOnClickListener { viewModel.sendHex(UPLOAD_FLASH) }
-        binding.btnAod.setOnClickListener { viewModel.sendHex(UPLOAD_ADD) }
-        binding.btnOff.setOnClickListener { viewModel.sendHex(UPLOAD_CLOSE) }
-        binding.seekRedLight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, i: Int, p2: Boolean) {}
-            override fun onStartTrackingTouch(p0: SeekBar?) {}
-            override fun onStopTrackingTouch(v: SeekBar?) {
-                 v?.progress?.let {
-                     viewModel.homeData.readLight = it
-                     viewModel.sendHex(UPLOAD_RED_LIGHT_XX + it.getHexString())
-                 }
-
-            }
-        })
-        binding.imgRedlightPlus.setOnClickListener {
-            if (viewModel.homeData.readLight >= 10) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RED_LIGHT_XX + (viewModel.homeData.readLight + 1).getHexString())
-            viewModel.homeData.readLight++
-            binding.seekRedLight.progress = viewModel.homeData.readLight
-        }
-        binding.imgReadlightMinus.setOnClickListener {
-            if (viewModel.homeData.readLight <= 0) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RED_LIGHT_XX + (viewModel.homeData.readLight - 1).getHexString())
-            viewModel.homeData.readLight--
-            binding.seekRedLight.progress = viewModel.homeData.readLight
-        }
-
+    private fun initScope() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(STARTED) {
                 launch {
@@ -146,7 +89,71 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        return binding.root
+    }
+
+    private fun setOnClick() {
+        binding.toggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                viewModel.homeData.waveId = checkedId
+                when (checkedId) {
+                    R.id.btn_1064 -> viewModel.sendHex(UPLOAD_1064)
+                    R.id.btn_523 -> viewModel.sendHex(UPLOAD_532)
+                }
+            }
+        }
+        binding.btnEnergyPlus.setOnClickListener { viewModel.sendHex(UPLOAD_ENERGY_PLUS) }
+        binding.btnEnergyMinus.setOnClickListener { viewModel.sendHex(UPLOAD_ENERGY_MINUS) }
+        binding.btnRatePlus.setOnClickListener {
+            if (viewModel.homeData.rate >= 10) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_RATE_XX + (viewModel.homeData.rate + 1).getHexString())
+            viewModel.homeData.rate++
+        }
+        binding.btnRateMinus.setOnClickListener {
+            if (viewModel.homeData.rate <= 1) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_RATE_XX + (viewModel.homeData.rate - 1).getHexString())
+            viewModel.homeData.rate--
+        }
+        binding.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.homeData.switch = isChecked
+            if (viewModel.homeData.switch) viewModel.sendHex(UPLOAD_ON)
+            else viewModel.sendHex(UPLOAD_OFF)
+        }
+        binding.btnFlash.setOnClickListener { viewModel.sendHex(UPLOAD_FLASH) }
+        binding.btnAod.setOnClickListener { viewModel.sendHex(UPLOAD_ADD) }
+        binding.btnOff.setOnClickListener { viewModel.sendHex(UPLOAD_CLOSE) }
+        binding.seekRedLight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, i: Int, p2: Boolean) {}
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+            override fun onStopTrackingTouch(v: SeekBar?) {
+                v?.progress?.let {
+                    viewModel.homeData.readLight = it
+                    viewModel.sendHex(UPLOAD_RED_LIGHT_XX + it.getHexString())
+                }
+
+            }
+        })
+        binding.imgRedlightPlus.setOnClickListener {
+            if (viewModel.homeData.readLight >= 10) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_RED_LIGHT_XX + (viewModel.homeData.readLight + 1).getHexString())
+            viewModel.homeData.readLight++
+            binding.seekRedLight.progress = viewModel.homeData.readLight
+        }
+        binding.imgReadlightMinus.setOnClickListener {
+            if (viewModel.homeData.readLight <= 0) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_RED_LIGHT_XX + (viewModel.homeData.readLight - 1).getHexString())
+            viewModel.homeData.readLight--
+            binding.seekRedLight.progress = viewModel.homeData.readLight
+        }
+    }
+
+    private fun initUIState() {
+        setEnergy()
+        setRate()
+        binding.tvPulse.text = getString(R.string.pulse, viewModel.homeData.pulse)
+        binding.tvSpot.text = getString(R.string.spot, viewModel.homeData.spot)
+        binding.toggleSwitch.isChecked = viewModel.homeData.switch
+        binding.seekRedLight.progress = viewModel.homeData.readLight
+        viewModel.homeData.waveId?.let { binding.toggleGroup.check(it) }
     }
 
     private fun setRate() {
