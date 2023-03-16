@@ -1,0 +1,104 @@
+package com.connor.picofull.constant
+
+const val reverse = false
+
+//（上传）屏幕到控制板
+val UPLOAD_532 = if (!reverse) "5AA506831010010001" else "5AA5058210100001"
+val UPLOAD_1064 = if (!reverse) "5AA506831010010002" else "5AA5058210100002"
+//（下发）控制板到屏幕
+val ISSUED_532 = if (!reverse) "5AA5058210100001" else "5AA506831010010001"
+val ISSUED_1064 = if (!reverse) "5AA5058210100002" else "5AA506831010010002"
+
+/**
+ * 频率和能量密度
+ */
+//上传
+val UPLOAD_RATE_XX = if (!reverse) "5AA50683101101" else "5AA505821011"
+const val UPLOAD_ENERGY_PLUS = "5AA506831012010002"
+const val UPLOAD_ENERGY_MINUS = "5AA506831012010001"
+//下发
+val ISSUED_RATE_XX = if (!reverse) "5AA505821011" else "5AA50683101101"
+const val ISSUED_ENERGY_XX = "5AA505821013"
+const val ISSUED_SPOT_XX = "5AA505821014" //光斑尺寸
+const val ISSUES_PULSE_XXXX  = "5AA507821016"//脉冲数
+
+/**
+ * 设备状态控制按键
+ */
+val UPLOAD_OFF = if (!reverse) "5AA506831020010001" else "5AA5068310200001"
+val UPLOAD_ON = if (!reverse) "5AA506831020010002" else "5AA5068310200002"
+
+val ISSUED_OFF = if (!reverse) "5AA5068310200001" else "5AA506831020010001"
+val ISSUED_ON = if (!reverse) "5AA5068310200002" else "5AA506831020010002"
+
+/**
+ * 红光设置部分
+ * 三种状态可调节，红光亮度可调节
+ */
+val UPLOAD_FLASH = if (!reverse) "5AA506831030010001" else "5AA5058210300001" //闪烁
+val UPLOAD_ADD = if (!reverse) "5AA506831030010002 " else "5AA5058210300002"//常亮
+val UPLOAD_CLOSE = if (!reverse) "5AA506831030010003" else "5AA5058210300003"//关闭
+val UPLOAD_RED_LIGHT_XX = if (!reverse) "5AA50683103101" else "5AA505821031"//红光强度
+
+val ISSUED_FLASH = if (!reverse) "5AA5058210300001" else "5AA506831030010001" //闪烁
+val ISSUED_ADD = if (!reverse) "5AA5058210300002" else "5AA506831030010002"//常亮
+val ISSUED_CLOSE = if (!reverse) "5AA5058210300003" else "5AA506831030010003"//关闭
+val ISSUED_RED_LIGHT_XX = if (!reverse) "5AA505821031" else "5AA50683103101"//红光强度
+
+/**
+ * 功能键部分（设置，视频，信息）
+ * 功能键部分按键按下后根据控制板返回数据跳转至相应界面
+ */
+const val UPLOAD_SETTINGS = "5AA506831040010002"
+const val UPLOAD_VIDEO = "5AA506831040010003"
+const val UPLOAD_MSG = "5AA506831040010004"
+
+const val ISSUED_SETTINGS_X = "5AA5078200845a0100"
+const val ISSUED_VIDEO_X = "5AA5078200845a0100"
+const val ISSUED_MSG_X = "5AA5078200845a0100"
+
+/**
+ * 辅助界面
+ */
+const val GOTO_SETTINGS = "5AA5078200845a010002"//跳转至设置界面
+const val GOTO_VIDEO = "5AA5078200845a010003"//跳转至媒体视频界面
+const val GOTO_ABOUT = "5AA5078200845a010004"//跳转至设置信息界面
+
+/**
+ * 设置界面
+ */
+//蜂鸣器
+val UPLOAD_BUZZ_OFF = if (!reverse) "5AA506831041010000" else "5AA5058210410000"
+val UPLOAD_BUZZ_ON = if (!reverse) "5AA506831041010001" else "5AA5058210410001"
+
+val ISSUED_BUZZ_OFF = if (!reverse) "5AA5058210410000" else "5AA506831041010000"
+val ISSUED_BUZZ_ON = if (!reverse) "5AA5058210410001" else "5AA506831041010001"
+
+//音量
+val UPLOAD_VOLUME_X = if (!reverse) "5AA5068310420100" else "5AA50582104200"
+val ISSUED_VOLUME_X = if (!reverse) "5AA50582104200" else "5AA5068310420100"
+
+/**
+ * 后台界面
+ */
+const val UPLOAD_INPUT_XXXX = "5AA50683104402"//输入界面
+//总数清除
+val UPLOAD_CLEAR = if (!reverse) "5AA506831045010000" else "5AA50782105000000000"
+val ISSUED_CLEAR = if (!reverse) "5AA50782105000000000" else "5AA506831045010000"
+//登入 （xx=00 对应开启，01 对应关闭)
+val UPLOAD_LOGIN_X = if (!reverse) "5AA5068310460100" else "5AA50582104600"
+val ISSUED_LOGIN_X = if (!reverse) "5AA50582104600" else "5AA5068310460100"
+//能量 （xx=00 对应-，01 对应+）
+val UPLOAD_ENERGY_BACKSTAGE_X_XX = if (!reverse) "5AA5068310470100" else "5AA505821052"
+val ISSUED_ENERGY_BACKSTAGE_XX_X = if (!reverse) "5AA505821052" else "5AA5068310470100"
+//电压 （xx 对应电压值）
+val UPLOAD_CLEAR_X_XX = if (!reverse) "5AA5068310480100" else "5AA505821048"
+val ISSUED_CLEAR_XX_X = if (!reverse) "5AA505821048" else "5AA5068310480100"
+
+/**
+ * 报警界面
+ */
+const val GOTO_TEMP_ALARM = "5AA5078200845a010005"// 跳转至温度报警界面
+const val GOTO_XENON_LAMP_FAIL = "5AA5078200845a010006"//跳转至氙灯文火失败界面
+const val GOTO_FLOW_ERR = "5AA5078200845a010007"//跳转至水流错误失败界面
+const val GOTO_LASER_POWER_FAIL = "5AA5078200845a010008"//跳转至激光电源故障界面

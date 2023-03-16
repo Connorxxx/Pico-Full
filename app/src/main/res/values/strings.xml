@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Pico Full</string>
+    <string name="settings">设置</string>
+    <string name="video">媒体视频</string>
+    <string name="about">设备信息</string>
+    <string name="energy">%1$d /cm²</string>
+    <string name="hz">%1$d Hz</string>
+    <string name="pulse">脉冲数&#160;&#160; %1$d</string>
+    <string name="spot">光斑尺寸   %1$d mm</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="energy_density">能量密度</string>
+    <string name="rate">频率</string>
+    <string name="off">关闭</string>
+    <string name="aod">常亮</string>
+    <string name="flash">闪烁</string>
+</resources>

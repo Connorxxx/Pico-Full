@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.HomeFragment" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.connor.picofull.ui.view.SemiCircleArcProgressBar
+            android:id="@+id/progress_energy"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_energy"
+            app:percent="30"
+            app:progressBarColor="@color/black"
+            app:progressBarWidth="20"
+            app:progressPlaceHolderWidth="10" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggle_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            app:layout_constraintStart_toEndOf="@+id/progress_energy"
+            app:layout_constraintTop_toTopOf="@+id/tv_energy"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/btn_1064"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1064nm" />
+
+            <Button
+                android:id="@+id/btn_523"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="532nm" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/tv_energy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/progress_energy"
+            app:layout_constraintStart_toStartOf="@+id/progress_energy"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12/cm²" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="@string/energy_density"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/progress_energy"
+            app:layout_constraintStart_toStartOf="@+id/progress_energy"
+            app:layout_constraintTop_toTopOf="@+id/progress_energy" />
+
+        <LinearLayout
+            android:id="@+id/rg_energy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/progress_energy"
+            app:layout_constraintStart_toStartOf="@+id/progress_energy"
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+            <Button
+                android:id="@+id/btn_energy_plus"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="PLUS"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btn_energy_minus"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="MINUS"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <com.connor.picofull.ui.view.SemiCircleArcProgressBar
+            android:id="@+id/progress_hz"
+            android:layout_width="400dp"
+            android:layout_height="200dp"
+
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toEndOf="@+id/toggle_group"
+            app:layout_constraintTop_toBottomOf="@+id/tv_hz"
+            app:percent="30"
+            app:progressBarColor="@color/black"
+            app:progressBarWidth="20"
+            app:progressPlaceHolderWidth="10" />
+
+        <TextView
+            android:id="@+id/tv_hz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/progress_hz"
+            app:layout_constraintStart_toStartOf="@+id/progress_hz"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10hz" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="@string/rate"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/progress_hz"
+            app:layout_constraintStart_toStartOf="@+id/progress_hz"
+            app:layout_constraintTop_toTopOf="@+id/progress_hz" />
+
+        <LinearLayout
+            android:id="@+id/layout_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/progress_hz"
+            app:layout_constraintStart_toStartOf="@+id/progress_hz"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <Button
+                android:id="@+id/btn_rate_plus"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="PLUS"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btn_rate_minus"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:text="MINUS"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_pulse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/layout_rate"
+            app:layout_constraintStart_toStartOf="@+id/layout_rate"
+            app:layout_constraintTop_toBottomOf="@+id/layout_rate"
+            tools:text="脉冲数" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_spot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="42dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="光斑尺寸" />
+
+    <ToggleButton
+        android:id="@+id/toggle_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:button="@drawable/toggle_switch"
+        android:checked="false"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/off"
+        app:layout_constraintBottom_toTopOf="@+id/img_redlight_plus"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_aod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/aod"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_off"
+        app:layout_constraintEnd_toStartOf="@id/btn_off" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/black"
+        android:text="@string/flash"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_aod"
+        app:layout_constraintEnd_toStartOf="@id/btn_aod" />
+
+    <ImageView
+        android:id="@+id/img_redlight_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="42dp"
+        android:src="@drawable/arrow_forward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seek_red_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:max="10"
+        android:progress="4"
+        app:layout_constraintBottom_toBottomOf="@+id/img_redlight_plus"
+        app:layout_constraintEnd_toStartOf="@+id/img_redlight_plus"
+        app:layout_constraintStart_toStartOf="@+id/btn_flash"
+        app:layout_constraintTop_toTopOf="@+id/img_redlight_plus" />
+
+    <ImageView
+        android:id="@+id/img_readlight_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintBottom_toBottomOf="@+id/img_redlight_plus"
+        app:layout_constraintEnd_toStartOf="@+id/seek_red_light"
+        app:layout_constraintTop_toTopOf="@+id/img_redlight_plus" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="红光强度"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_readlight_minus"
+        app:layout_constraintEnd_toStartOf="@+id/img_readlight_minus"
+        app:layout_constraintTop_toTopOf="@+id/img_readlight_minus" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
