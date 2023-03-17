@@ -3,14 +3,17 @@ package com.connor.picofull.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.connor.picofull.constant.UPLOAD_532
+import com.connor.picofull.constant.videoPath
 import com.connor.picofull.datastores.DataStoreManager
 import com.connor.picofull.models.HomeData
 import com.connor.picofull.models.SettingsData
-import com.connor.picofull.utils.logCat
+import com.connor.picofull.models.VideoInfo
+import com.connor.picofull.utils.*
 import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,6 +21,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
 
     val homeData = HomeData()
     val settingsData = SettingsData()
+    val videoList by lazy { ArrayList<VideoInfo>() }
 
     private val _receiveEvent = MutableSharedFlow<String>()
     val receiveEvent = _receiveEvent.asSharedFlow()
@@ -25,7 +29,6 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     init {
         NormalSerial.instance().open("/dev/ttyS0", 9600)
         NormalSerial.instance().addDataListener { data ->
-            data.logCat()
             viewModelScope.launch {
                 _receiveEvent.emit(data)
             }
@@ -33,6 +36,9 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
         dataStoreManager.languageFlow.onEach {
             settingsData.language = it
         }.launchIn(viewModelScope)
+        File(videoPath).getAllFiles().onEach { file ->
+            videoList.add(VideoInfo(file, file.name, file.getVideoDuration().toSeconds().formatDuration().cutTime()))
+        }
     }
 
     fun sendHex(hex: String) {

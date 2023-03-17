@@ -1,6 +1,8 @@
 package com.connor.picofull
 
+import android.Manifest
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.viewModels
@@ -15,10 +17,12 @@ import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.ActivityMainBinding
 import com.connor.picofull.utils.logCat
 import com.connor.picofull.viewmodels.MainViewModel
+import com.permissionx.guolindev.PermissionX
 import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,8 +36,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav) as NavHostFragment
+        PermissionX.init(this).permissions(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ).request { allGranted, _, _ ->
+            if (allGranted) File(videoPath).also { if (!it.exists()) it.mkdirs() }
+        }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav) as NavHostFragment
         navController = navHostFragment.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbarMain.title = when (destination.id) {

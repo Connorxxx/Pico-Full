@@ -48,9 +48,6 @@ class SettingsFragment : Fragment() {
             delay(100)
             viewModel.settingsData.language?.let { binding.rgLanguage.check(it) }
         }
-
-
-
         binding.rgBuzz.setOnCheckedChangeListener { _, id ->
             when (id) {
                 R.id.radio_buzz_off -> {
@@ -63,7 +60,7 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
-        binding.rgLanguage.setOnCheckedChangeListener { radioGroup, id ->
+        binding.rgLanguage.setOnCheckedChangeListener { _, id ->
             viewModel.storeLanguage(id)
             when (id) {
                 R.id.btn_chinese -> {
@@ -126,19 +123,8 @@ class SettingsFragment : Fragment() {
                         }
                     }
                 }
-                launch {
-//                    viewModel.textColor.collect{
-//                        when (it) {
-//                            "zh" -> binding.btnChinese.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
-//                            "en" -> binding.btnEnglish.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
-//                            "fr" -> binding.btnFrench.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
-//                            "es" -> binding.btnSpanish.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
-//                        }
-//                    }
-                }
             }
         }
-
         return binding.root
     }
 
