@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pico Full</string>
+    <string name="settings">Paramètres</string>
+    <string name="video">Vidéo</string>
+    <string name="about">À propos</string>
+    <string name="energy">%1$d /cm²</string>
+    <string name="hz">%1$d Hz</string>
+    <string name="pulse">Impulsion &#160;&#160; %1$d</string>
+    <string name="spot">Taille du spot   %1$d mm</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="energy_density">énergie</string>
+    <string name="rate">Taux</string>
+    <string name="off">Désactivé</string>
+    <string name="aod">Toujours activé</string>
+    <string name="flash">Clignotant</string>
+    <string name="language">Langue</string>
+    <string name="chinese">Chinois</string>
+    <string name="english">Anglais</string>
+    <string name="French">Français</string>
+    <string name="spanish">Espagnol</string>
+    <string name="volume">Volume</string>
+    <string name="buzz">Bourdonner</string>
+    <string name="red_light">lumière rouge</string>
+</resources>

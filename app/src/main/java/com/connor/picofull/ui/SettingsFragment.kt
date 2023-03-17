@@ -1,24 +1,31 @@
 package com.connor.picofull.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.connor.picofull.MainActivity
 import com.connor.picofull.R
-import com.connor.picofull.constant.ISSUED_BUZZ_OFF
-import com.connor.picofull.constant.ISSUED_BUZZ_ON
-import com.connor.picofull.constant.UPLOAD_BUZZ_OFF
-import com.connor.picofull.constant.UPLOAD_BUZZ_ON
-import com.connor.picofull.databinding.FragmentHomeBinding
+import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentSettingsBinding
+import com.connor.picofull.utils.getHexString
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -33,11 +40,75 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        binding.rgBuzz.setOnCheckedChangeListener { radioGroup, id ->
+
+        if (viewModel.settingsData.buzz) binding.radioBuzzOn.isChecked =
+            true else binding.radioBuzzOff.isChecked = true
+        binding.seekVolume.progress = viewModel.settingsData.volume
+        lifecycleScope.launch {
+            delay(100)
+            viewModel.settingsData.language?.let { binding.rgLanguage.check(it) }
+        }
+
+
+
+        binding.rgBuzz.setOnCheckedChangeListener { _, id ->
             when (id) {
-                R.id.radio_buzz_off -> viewModel.sendHex(UPLOAD_BUZZ_OFF)
-                R.id.radio_buzz_on -> viewModel.sendHex(UPLOAD_BUZZ_ON)
+                R.id.radio_buzz_off -> {
+                    viewModel.sendHex(UPLOAD_BUZZ_OFF)
+                    viewModel.settingsData.buzz = false
+                }
+                R.id.radio_buzz_on -> {
+                    viewModel.sendHex(UPLOAD_BUZZ_ON)
+                    viewModel.settingsData.buzz = true
+                }
             }
+        }
+        binding.rgLanguage.setOnCheckedChangeListener { radioGroup, id ->
+            viewModel.storeLanguage(id)
+            when (id) {
+                R.id.btn_chinese -> {
+                    LocaleListCompat.forLanguageTags("zh").also {
+                        AppCompatDelegate.setApplicationLocales(it)
+                    }
+                }
+                R.id.btn_english -> {
+                    LocaleListCompat.forLanguageTags("en").also {
+                        AppCompatDelegate.setApplicationLocales(it)
+                    }
+                }
+                R.id.btn_french -> {
+                    LocaleListCompat.forLanguageTags("fr").also {
+                        AppCompatDelegate.setApplicationLocales(it)
+                    }
+                }
+                R.id.btn_spanish -> {
+                    LocaleListCompat.forLanguageTags("es").also {
+                        AppCompatDelegate.setApplicationLocales(it)
+                    }
+                }
+            }
+        }
+        binding.seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+            override fun onStopTrackingTouch(v: SeekBar?) {
+                v?.progress?.let {
+                    viewModel.settingsData.volume = it
+                    viewModel.sendHex(UPLOAD_VOLUME_X + it.getHexString(2))
+                }
+            }
+        })
+        binding.imgVolumeMinus.setOnClickListener {
+            if (viewModel.settingsData.volume <= 0) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_VOLUME_X + (viewModel.settingsData.volume - 1).getHexString(2))
+            viewModel.settingsData.volume--
+            binding.seekVolume.progress = viewModel.settingsData.volume
+        }
+        binding.imgVolumePlus.setOnClickListener {
+            if (viewModel.settingsData.volume >= 10) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_VOLUME_X + (viewModel.settingsData.volume + 1).getHexString(2))
+            viewModel.settingsData.volume++
+            binding.seekVolume.progress = viewModel.settingsData.volume
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -48,7 +119,22 @@ class SettingsFragment : Fragment() {
                             ISSUED_BUZZ_OFF -> binding.radioBuzzOff.isChecked = true
                             ISSUED_BUZZ_ON -> binding.radioBuzzOn.isChecked = true
                         }
+                        if (it.contains(ISSUED_VOLUME_X)) {
+                            val value = it.substring(it.length - 2).toInt()
+                            viewModel.settingsData.volume = value
+                            binding.seekVolume.progress = value
+                        }
                     }
+                }
+                launch {
+//                    viewModel.textColor.collect{
+//                        when (it) {
+//                            "zh" -> binding.btnChinese.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
+//                            "en" -> binding.btnEnglish.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
+//                            "fr" -> binding.btnFrench.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
+//                            "es" -> binding.btnSpanish.setTextColor(requireActivity().getColor(R.color.deep_orange_primary))
+//                        }
+//                    }
                 }
             }
         }

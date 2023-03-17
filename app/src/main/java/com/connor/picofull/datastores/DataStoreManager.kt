@@ -3,6 +3,8 @@ package com.connor.picofull.datastores
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -19,12 +21,12 @@ class DataStoreManager @Inject constructor(@ApplicationContext context: Context)
 
     private val getDataStore = context.dataStore
 
-    private val pureState = intPreferencesKey("wave_id")
+    private val pureState = intPreferencesKey("language_id")
 
-    val idFlow = getDataStore.data.map { it[pureState] }
+    val languageFlow = getDataStore.data.map { it[pureState] }
         .flowOn(Dispatchers.IO)
 
-    suspend fun storeWaveId(value: Int) {
+    suspend fun storeLanguage(value: Int) {
         getDataStore.edit {
             withContext(Dispatchers.IO) { it[pureState] = value }
         }

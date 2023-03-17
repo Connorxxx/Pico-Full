@@ -9,7 +9,7 @@ fun Any.logCat(tab: String = "PICO_FULL_LOG") {
     if (this is String) Log.d(tab, this) else Log.d(tab, this.toString())
 }
 
-fun Int.getHexString(): String {
+fun Int.getHexString(length: Int = 4): String {
     val hex = Integer.toHexString(this)
-    return hex.padStart(4, '0').uppercase(Locale.getDefault())
+    return hex.padStart(length, '0').uppercase(Locale.getDefault())
 }
