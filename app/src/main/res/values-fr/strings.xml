@@ -23,4 +23,8 @@
     <string name="volume">Volume</string>
     <string name="buzz">Bourdonner</string>
     <string name="red_light">lumière rouge</string>
+    <string name="device_model">Device model     PICO_LASER</string>
+    <string name="device_name">设备名称     皮秒激光器</string>
+    <string name="production_date">Production Date</string>
+    <string name="version">Version</string>
 </resources>

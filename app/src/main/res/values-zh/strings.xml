@@ -22,4 +22,6 @@
     <string name="volume">音量</string>
     <string name="buzz">蜂鸣器</string>
     <string name="red_light">红光强度</string>
+    <string name="device_model">设备型号     PICO_LASER</string>
+    <string name="device_name">设备名称     皮秒激光器</string>
 </resources>

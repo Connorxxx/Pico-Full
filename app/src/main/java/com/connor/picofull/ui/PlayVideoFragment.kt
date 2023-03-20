@@ -55,7 +55,6 @@ class PlayVideoFragment : Fragment() {
         _videoBinding = LayoutVideoControlBinding.bind(view)
         binding.playerView.player = player
         binding.playerControlView.player = binding.playerView.player
-        args.data.logCat()
         val data = Json.decodeFromString<VideoData>(args.data)
         (activity as AppCompatActivity).supportActionBar?.title = data.videoName
         val uri = Uri.parse(data.videoPath)
@@ -78,11 +77,8 @@ class PlayVideoFragment : Fragment() {
                 }
                 override fun onStartTrackingTouch(p0: SeekBar?) {}
                 override fun onStopTrackingTouch(p0: SeekBar?) {}
-
             })
         }
-
-
         return view
     }
 
