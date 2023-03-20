@@ -1,16 +1,15 @@
 package com.connor.picofull.utils
 
+import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.util.Log
+import android.widget.Toast
+import com.connor.picofull.App
 import com.connor.picofull.BuildConfig
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.nanoseconds
-import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
 
 fun Any.logCat(tab: String = "PICO_FULL_LOG") {
     if (!BuildConfig.DEBUG) return
@@ -20,6 +19,27 @@ fun Any.logCat(tab: String = "PICO_FULL_LOG") {
 fun Int.getHexString(length: Int = 4): String {
     val hex = Integer.toHexString(this)
     return hex.padStart(length, '0').uppercase(Locale.getDefault())
+}
+
+fun String.getHexString(): String {
+    val bytes = this.toByteArray()
+    return bytes.joinToString(separator = "") { String.format("%02X", it) }
+}
+
+fun String.showToast() {
+    Toast.makeText(App.app, this, Toast.LENGTH_SHORT).show()
+}
+
+fun String.hexToString(): String {
+    val stringBuilder = StringBuilder()
+    var i = 0
+    while (i < this.length) {
+        val hex = this.substring(i, i + 2)
+        val intValue = hex.toInt(16)
+        stringBuilder.append(intValue.toChar())
+        i += 2
+    }
+    return stringBuilder.toString()
 }
 
 fun File.getAllFiles(): ArrayList<File> {

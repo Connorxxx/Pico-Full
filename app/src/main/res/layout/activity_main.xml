@@ -64,9 +64,14 @@
                 android:visibility="gone"
                 tools:visibility="visible"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
     </com.google.android.material.appbar.MaterialToolbar>
+
+    <View
+        android:id="@+id/backstage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav"

@@ -2,8 +2,6 @@ package com.connor.picofull
 
 import android.Manifest
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,9 +16,7 @@ import com.connor.picofull.databinding.ActivityMainBinding
 import com.connor.picofull.utils.logCat
 import com.connor.picofull.viewmodels.MainViewModel
 import com.permissionx.guolindev.PermissionX
-import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -51,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsFragment -> getString(R.string.settings)
                 R.id.videoFragment -> getString(R.string.video)
                 R.id.aboutFragment -> getString(R.string.about)
+                R.id.inputFragment -> getString(R.string.input)
                 else -> getString(R.string.app_name)
             }
             binding.imgBack.isVisible = when (destination.id) {
@@ -58,13 +55,17 @@ class MainActivity : AppCompatActivity() {
                 else -> true
             }
             binding.rgMain.isVisible = when (destination.id) {
-                R.id.playVideoFragment -> false
+                R.id.playVideoFragment, R.id.inputFragment -> false
                 else -> true
             }
             sandVisible(when (destination.id) {
                 R.id.aboutFragment -> false
                 else -> true
             })
+            binding.backstage.isVisible = when (destination.id) {
+                R.id.homeFragment -> true
+                else ->false
+            }
         }
         binding.rgMain.setOnCheckedChangeListener { _, id ->
             when (id) {
@@ -87,6 +88,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+        binding.backstage.setOnClickListener {
+            navController.navigate(R.id.action_global_inputFragment)
         }
         binding.imgBack.setOnClickListener {
             if (navController.currentDestination?.id == R.id.playVideoFragment) {

@@ -45,4 +45,10 @@
             android:name="data"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/inputFragment"
+        android:name="com.connor.picofull.ui.InputFragment"
+        android:label="fragment_backstage"
+        tools:layout="@layout/fragment_input" />
+    <action android:id="@+id/action_global_inputFragment" app:destination="@id/inputFragment" />
 </navigation>
