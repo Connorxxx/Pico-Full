@@ -27,7 +27,6 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     val receiveEvent = _receiveEvent.asSharedFlow()
 
     init {
-        NormalSerial.instance().open("/dev/ttyS0", 9600)
         NormalSerial.instance().addDataListener { data ->
             viewModelScope.launch {
                 _receiveEvent.emit(data)
@@ -37,7 +36,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
             settingsData.language = it
         }.launchIn(viewModelScope)
         File(videoPath).getAllFiles().onEach { file ->
-            videoList.add(VideoInfo(file, file.name, file.getVideoDuration().toSeconds().formatDuration().cutTime()))
+            videoList.add(VideoInfo(file, file.name.substring(0,file.name.lastIndexOf(".")), file.getVideoDuration().toSeconds().formatDuration().cutTime()))
         }
     }
 

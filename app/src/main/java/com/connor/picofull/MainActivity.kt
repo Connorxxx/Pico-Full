@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbarMain)
         PermissionX.init(this).permissions(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -56,6 +57,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> false
                 else -> true
             }
+            binding.rgMain.isVisible = when (destination.id) {
+                R.id.playVideoFragment -> false
+                else -> true
+            }
+            sandVisible(when (destination.id) {
+                R.id.aboutFragment -> false
+                else -> true
+            })
         }
         binding.rgMain.setOnCheckedChangeListener { _, id ->
             when (id) {
@@ -80,12 +89,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.imgBack.setOnClickListener {
-            gotoHome()
+            if (navController.currentDestination?.id == R.id.playVideoFragment) {
+                navController.navigate(R.id.action_playVideoFragment_to_videoFragment)
+            } else gotoHome()
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.receiveEvent.collect {
+                        it.logCat()
                         when (it) {
                             GOTO_SETTINGS, GOTO_SETTINGS.uppercase() -> {
                                 navController.navigate(R.id.action_global_settingsFragment)
@@ -108,6 +120,11 @@ class MainActivity : AppCompatActivity() {
             if (navController.currentDestination?.id == R.id.homeFragment) finish()
             else gotoHome()
         }
+    }
+
+    private fun sandVisible(visible: Boolean) {
+        binding.radioSettings.isVisible = visible
+        binding.radioVideo.isVisible = visible
     }
 
     private fun gotoHome() {

@@ -19,7 +19,11 @@
         android:id="@+id/videoFragment"
         android:name="com.connor.picofull.ui.VideoFragment"
         android:label="fragment_video"
-        tools:layout="@layout/fragment_video" />
+        tools:layout="@layout/fragment_video" >
+        <action
+            android:id="@+id/action_videoFragment_to_playVideoFragment"
+            app:destination="@id/playVideoFragment" />
+    </fragment>
     <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
     <action android:id="@+id/action_global_videoFragment" app:destination="@id/videoFragment" />
     <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
@@ -29,4 +33,16 @@
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
     <action android:id="@+id/action_global_aboutFragment" app:destination="@id/aboutFragment" />
+    <fragment
+        android:id="@+id/playVideoFragment"
+        android:name="com.connor.picofull.ui.PlayVideoFragment"
+        android:label="fragment_play_video"
+        tools:layout="@layout/fragment_play_video" >
+        <action
+            android:id="@+id/action_playVideoFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
+        <argument
+            android:name="data"
+            app:argType="string" />
+    </fragment>
 </navigation>
