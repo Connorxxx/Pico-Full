@@ -43,4 +43,9 @@
     <string name="energy_bg">能量</string>
     <string name="voltage">电压</string>
     <string name="energy_value">%1$d</string>
+    <string name="alert">警告!!!</string>
+    <string name="temp_err">温度太高了！！！</string>
+    <string name="xenon_err">氙灯文火失败，请重启！！！</string>
+    <string name="flow_err">水流错误！！！</string>
+    <string name="power_err">激光电源故障，请重启！！！</string>
 </resources>

@@ -60,4 +60,27 @@
         android:name="com.connor.picofull.ui.BackstageFragment"
         android:label="fragment_backstage"
         tools:layout="@layout/fragment_backstage" />
+    <fragment
+        android:id="@+id/tempAlertFragment"
+        android:name="com.connor.picofull.ui.TempAlertFragment"
+        android:label="fragment_temp_alert"
+        tools:layout="@layout/fragment_temp_alert" />
+    <action android:id="@+id/action_global_tempAlertFragment" app:destination="@id/tempAlertFragment" />
+    <fragment
+        android:id="@+id/flowAlertFragment"
+        android:name="com.connor.picofull.ui.FlowAlertFragment"
+        android:label="fragment_flow_alert"
+        tools:layout="@layout/fragment_flow_alert" />
+    <action android:id="@+id/action_global_flowAlertFragment" app:destination="@id/flowAlertFragment" />
+    <fragment
+        android:id="@+id/xenonAlertFragment"
+        android:name="com.connor.picofull.ui.XenonAlertFragment"
+        android:label="fragment_xenon_alert"
+        tools:layout="@layout/fragment_xenon_alert" />
+    <action android:id="@+id/action_global_xenonAlertFragment" app:destination="@id/xenonAlertFragment" />
+    <fragment
+        android:id="@+id/powerAlertFragment"
+        android:name="com.connor.picofull.ui.PowerAlertFragment"
+        android:label="fragment_power_alert"
+        tools:layout="@layout/fragment_power_alert" /><action android:id="@+id/action_global_powerAlertFragment" app:destination="@id/powerAlertFragment"/>
 </navigation>

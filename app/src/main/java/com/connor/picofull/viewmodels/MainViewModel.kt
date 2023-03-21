@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.connor.picofull.BuildConfig
 import com.connor.picofull.R
 import com.connor.picofull.constant.UPLOAD_532
 import com.connor.picofull.constant.videoPath
@@ -15,6 +16,9 @@ import com.connor.picofull.models.VideoInfo
 import com.connor.picofull.utils.*
 import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.File
@@ -29,11 +33,16 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     val backstageData = BackstageData()
     val videoList by lazy { ArrayList<VideoInfo>() }
 
+    private val sendHexList = ArrayList<String>()
+
     private val _receiveEvent = MutableSharedFlow<String>()
     val receiveEvent = _receiveEvent.asSharedFlow()
 
+    private var remainingTime = 10L
+
     init {
         NormalSerial.instance().addDataListener { data ->
+            sendHexList.clear()
             viewModelScope.launch { _receiveEvent.emit(data) }
         }
         dataStoreManager.languageFlow.filterNotNull().onEach { id ->
@@ -70,9 +79,32 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
                 )
             )
         }
+
+        if (!BuildConfig.DEBUG) {
+            viewModelScope.launch(Dispatchers.Default) {
+                while (true) {
+                    delay(1000)
+                    remainingTime--
+                    remainingTime.logCat()
+                    if (remainingTime == 0L) {
+                        if (sendHexList.isNotEmpty()) {
+                            sendHexList.forEach { hex ->
+                                remainingTime = 10L
+                                NormalSerial.instance().sendHex(hex)
+                            }
+                        }
+                    }
+                    if (remainingTime <= -5184000L) remainingTime = -1
+                }
+            }
+        }
+
     }
 
+
     fun sendHex(hex: String) {
+        sendHexList.add(hex)
+        remainingTime = 10L
         NormalSerial.instance().sendHex(hex)
     }
 

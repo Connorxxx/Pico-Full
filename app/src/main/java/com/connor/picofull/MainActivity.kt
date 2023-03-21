@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.aboutFragment -> getString(R.string.about)
                 R.id.inputFragment -> getString(R.string.input)
                 R.id.backstageFragment -> getString(R.string.backstage)
+                R.id.tempAlertFragment,
+                R.id.flowAlertFragment,
+                R.id.xenonAlertFragment,
+                R.id.powerAlertFragment -> getString(R.string.alert)
                 else -> getString(R.string.app_name)
             }
             binding.imgBack.isVisible = when (destination.id) {
@@ -70,6 +74,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> true
                 else -> false
             }
+            binding.layoutAlert.isVisible = when (destination.id) {
+                R.id.tempAlertFragment,
+                R.id.flowAlertFragment,
+                R.id.xenonAlertFragment,
+                R.id.powerAlertFragment -> true
+                else -> false
+            }
+            binding.layoutHome.isVisible = !binding.layoutAlert.isVisible
         }
         binding.rgMain.setOnCheckedChangeListener { _, id ->
             when (id) {
@@ -118,6 +130,22 @@ class MainActivity : AppCompatActivity() {
                             GOTO_ABOUT, GOTO_ABOUT.uppercase() -> {
                                 navController.navigate(R.id.action_global_aboutFragment)
                                 binding.radioAbout.isChecked = true
+                            }
+                            GOTO_TEMP_ALARM, GOTO_TEMP_ALARM.uppercase() -> {
+                                navController.navigate(R.id.action_global_tempAlertFragment)
+                                binding.radioHighTemp.isChecked = true
+                            }
+                            GOTO_FLOW_ERR, GOTO_FLOW_ERR.uppercase() -> {
+                                navController.navigate(R.id.action_global_flowAlertFragment)
+                                binding.radioFlowErr.isChecked = true
+                            }
+                            GOTO_XENON_LAMP_FAIL, GOTO_XENON_LAMP_FAIL.uppercase() -> {
+                                navController.navigate(R.id.action_global_xenonAlertFragment)
+                                binding.radioXenonFailure.isChecked = true
+                            }
+                            GOTO_LASER_POWER_FAIL, GOTO_LASER_POWER_FAIL.uppercase() -> {
+                                navController.navigate(R.id.action_global_powerAlertFragment)
+                                binding.radioPowerErr.isChecked = true
                             }
                         }
                     }
