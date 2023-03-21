@@ -9,6 +9,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.connor.picofull.R
 import com.connor.picofull.constant.UPLOAD_INPUT_XXXX
 import com.connor.picofull.databinding.FragmentInputBinding
 import com.connor.picofull.utils.getHexString
@@ -35,16 +37,15 @@ class InputFragment : Fragment() {
                 requestFocus()
                 imm.showSoftInput(this, 0)
                 setOnEditorActionListener { textView, actionId, _ ->
-                    if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length >= 4) {  //后台
-                        text.toString().getHexString().logCat()
+                    if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length >= 4) {
                         viewModel.sendHex(UPLOAD_INPUT_XXXX + text.toString().getHexString())
-                        imm.hideSoftInputFromWindow(windowToken, 0)
-                    } else "please input 4 digit password".showToast()
+                        if (text.toString() == "1234") findNavController().navigate(R.id.action_inputFragment_to_backstageFragment)
+                        else getString(R.string.password_error).showToast(); setText("")
+                    } else getString(R.string.password_tips).showToast()
                     return@setOnEditorActionListener true
                 }
             }
         }
-
         return binding.root
     }
 

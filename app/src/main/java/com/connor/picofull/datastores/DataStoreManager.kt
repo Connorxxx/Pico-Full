@@ -3,8 +3,6 @@ package com.connor.picofull.datastores
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -21,14 +19,13 @@ class DataStoreManager @Inject constructor(@ApplicationContext context: Context)
 
     private val getDataStore = context.dataStore
 
-    private val pureState = intPreferencesKey("language_id")
+    private val languageID = intPreferencesKey("language_id")
 
-    val languageFlow = getDataStore.data.map { it[pureState] }
-        .flowOn(Dispatchers.IO)
+    val languageFlow = getDataStore.data.map { it[languageID] }.flowOn(Dispatchers.IO)
 
     suspend fun storeLanguage(value: Int) {
         getDataStore.edit {
-            withContext(Dispatchers.IO) { it[pureState] = value }
+            withContext(Dispatchers.IO) { it[languageID] = value }
         }
     }
 }

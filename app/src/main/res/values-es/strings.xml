@@ -28,4 +28,19 @@
     <string name="production_date">Production Date</string>
     <string name="version">Version</string>
     <string name="input">input</string>
+    <string name="backstage">Backstage</string>
+    <string name="exit_tips">Exit</string>
+    <string name="exit_msg">Are you sure you want to exit the program?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="password_error">Password Error</string>
+    <string name="password_tips">please input 4 digit password</string>
+    <string name="sum">总数</string>
+    <string name="clear">清除</string>
+    <string name="login">登入</string>
+    <string name="open">开启</string>
+    <string name="close">关闭</string>
+    <string name="energy_bg">能量</string>
+    <string name="voltage">电压</string>
+    <string name="energy_value">%1$d</string>
 </resources>

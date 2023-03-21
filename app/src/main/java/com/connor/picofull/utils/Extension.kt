@@ -4,8 +4,14 @@ import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.connor.picofull.App
 import com.connor.picofull.BuildConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -45,12 +51,8 @@ fun String.hexToString(): String {
 fun File.getAllFiles(): ArrayList<File> {
     val files = ArrayList<File>()
     if (isDirectory) {
-        listFiles()?.forEach {
-            files.addAll(it.getAllFiles())
-        }
-    } else {
-        files.add(this)
-    }
+        listFiles()?.forEach { files.addAll(it.getAllFiles()) }
+    } else files.add(this)
     return files
 }
 
@@ -70,4 +72,12 @@ fun Long.formatDuration(): String {
 }
 
 fun String.cutTime() = if (this.startsWith("0:")) this.substring(this.length - 5) else this
+
+fun Fragment.repeatOnStart(block: CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            block()
+        }
+    }
+}
 

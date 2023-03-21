@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.ActivityMainBinding
+import com.connor.picofull.ui.dialog.AlertDialogFragment
 import com.connor.picofull.utils.logCat
 import com.connor.picofull.viewmodels.MainViewModel
 import com.permissionx.guolindev.PermissionX
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.videoFragment -> getString(R.string.video)
                 R.id.aboutFragment -> getString(R.string.about)
                 R.id.inputFragment -> getString(R.string.input)
+                R.id.backstageFragment -> getString(R.string.backstage)
                 else -> getString(R.string.app_name)
             }
             binding.imgBack.isVisible = when (destination.id) {
@@ -55,16 +57,18 @@ class MainActivity : AppCompatActivity() {
                 else -> true
             }
             binding.rgMain.isVisible = when (destination.id) {
-                R.id.playVideoFragment, R.id.inputFragment -> false
+                R.id.playVideoFragment, R.id.inputFragment, R.id.backstageFragment -> false
                 else -> true
             }
-            sandVisible(when (destination.id) {
-                R.id.aboutFragment -> false
-                else -> true
-            })
+            sandVisible(
+                when (destination.id) {
+                    R.id.aboutFragment -> false
+                    else -> true
+                }
+            )
             binding.backstage.isVisible = when (destination.id) {
                 R.id.homeFragment -> true
-                else ->false
+                else -> false
             }
         }
         binding.rgMain.setOnCheckedChangeListener { _, id ->
@@ -121,7 +125,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         onBackPressedDispatcher.addCallback(this) {
-            if (navController.currentDestination?.id == R.id.homeFragment) finish()
+            if (navController.currentDestination?.id == R.id.homeFragment) AlertDialogFragment(
+                title = getString(R.string.exit_tips),
+                msg = getString(R.string.exit_msg)
+            ) { finish() }.show(supportFragmentManager, AlertDialogFragment.TAG)
             else gotoHome()
         }
     }

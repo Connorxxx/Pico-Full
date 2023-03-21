@@ -17,6 +17,7 @@ import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentSettingsBinding
 import com.connor.picofull.utils.getHexString
+import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -44,10 +45,7 @@ class SettingsFragment : Fragment() {
         if (viewModel.settingsData.buzz) binding.radioBuzzOn.isChecked =
             true else binding.radioBuzzOff.isChecked = true
         binding.seekVolume.progress = viewModel.settingsData.volume
-        lifecycleScope.launch {
-            delay(100)
-            viewModel.settingsData.language?.let { binding.rgLanguage.check(it) }
-        }
+        viewModel.settingsData.language?.let { binding.rgLanguage.check(it) }
         binding.rgBuzz.setOnCheckedChangeListener { _, id ->
             when (id) {
                 R.id.radio_buzz_off -> {
@@ -62,28 +60,6 @@ class SettingsFragment : Fragment() {
         }
         binding.rgLanguage.setOnCheckedChangeListener { _, id ->
             viewModel.storeLanguage(id)
-            when (id) {
-                R.id.btn_chinese -> {
-                    LocaleListCompat.forLanguageTags("zh").also {
-                        AppCompatDelegate.setApplicationLocales(it)
-                    }
-                }
-                R.id.btn_english -> {
-                    LocaleListCompat.forLanguageTags("en").also {
-                        AppCompatDelegate.setApplicationLocales(it)
-                    }
-                }
-                R.id.btn_french -> {
-                    LocaleListCompat.forLanguageTags("fr").also {
-                        AppCompatDelegate.setApplicationLocales(it)
-                    }
-                }
-                R.id.btn_spanish -> {
-                    LocaleListCompat.forLanguageTags("es").also {
-                        AppCompatDelegate.setApplicationLocales(it)
-                    }
-                }
-            }
         }
         binding.seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
@@ -108,19 +84,17 @@ class SettingsFragment : Fragment() {
             binding.seekVolume.progress = viewModel.settingsData.volume
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.receiveEvent.collect {
-                        when (it) {
-                            ISSUED_BUZZ_OFF -> binding.radioBuzzOff.isChecked = true
-                            ISSUED_BUZZ_ON -> binding.radioBuzzOn.isChecked = true
-                        }
-                        if (it.contains(ISSUED_VOLUME_X)) {
-                            val value = it.substring(it.length - 2).toInt()
-                            viewModel.settingsData.volume = value
-                            binding.seekVolume.progress = value
-                        }
+        repeatOnStart {
+            launch {
+                viewModel.receiveEvent.collect {
+                    when (it) {
+                        ISSUED_BUZZ_OFF -> binding.radioBuzzOff.isChecked = true
+                        ISSUED_BUZZ_ON -> binding.radioBuzzOn.isChecked = true
+                    }
+                    if (it.contains(ISSUED_VOLUME_X)) {
+                        val value = it.substring(it.length - 2).toInt()
+                        viewModel.settingsData.volume = value
+                        binding.seekVolume.progress = value
                     }
                 }
             }

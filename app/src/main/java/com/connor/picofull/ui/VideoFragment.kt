@@ -45,10 +45,6 @@ class VideoFragment : Fragment() {
         videoListAdapter.setClickListener {
             val m = VideoData(it.videoName, it.videoFile.absolutePath)
             val data = Json.encodeToString(m)
-//            Intent(requireActivity(), PlayVideoActivity()::class.java).apply {
-//                putExtra("data", data)
-//                startActivity(this)
-//            }
             val action = VideoFragmentDirections.actionVideoFragmentToPlayVideoFragment(data)
             findNavController().navigate(action)
         }

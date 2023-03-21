@@ -17,6 +17,7 @@ import com.connor.picofull.databinding.FragmentHomeBinding
 import com.connor.picofull.datastores.DataStoreManager
 import com.connor.picofull.utils.getHexString
 import com.connor.picofull.utils.logCat
+import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -44,47 +45,45 @@ class HomeFragment : Fragment() {
     }
 
     private fun initScope() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(STARTED) {
-                launch {
-                    viewModel.receiveEvent.collect {
-                        when (it) {
-                            ISSUED_1064 -> binding.toggleGroup.check(R.id.btn_1064)
-                            ISSUED_532 -> binding.toggleGroup.check(R.id.btn_523)
-                            ISSUED_ON -> {
-                                viewModel.homeData.switch = true
-                                binding.toggleSwitch.isChecked = true
-                            }
-                            ISSUED_OFF -> {
-                                viewModel.homeData.switch = false
-                                binding.toggleSwitch.isChecked = false
-                            }
+        repeatOnStart {
+            launch {
+                viewModel.receiveEvent.collect {
+                    when (it) {
+                        ISSUED_1064 -> binding.toggleGroup.check(R.id.btn_1064)
+                        ISSUED_532 -> binding.toggleGroup.check(R.id.btn_523)
+                        ISSUED_ON -> {
+                            viewModel.homeData.switch = true
+                            binding.toggleSwitch.isChecked = true
                         }
-                        if (it.contains(ISSUED_ENERGY_XX)) {
-                            val value = it.substring(it.length - 4).toInt(16)
-                            viewModel.homeData.energy = value
-                            setEnergy()
+                        ISSUED_OFF -> {
+                            viewModel.homeData.switch = false
+                            binding.toggleSwitch.isChecked = false
                         }
-                        if (it.contains(ISSUED_RATE_XX)) {
-                            val value = it.substring(it.length - 4).toInt(16)
-                            viewModel.homeData.rate = value
-                            setRate()
-                        }
-                        if (it.contains(ISSUES_PULSE_XXXX)) {
-                            val value = it.substring(it.length - 8).toInt(16)
-                            viewModel.homeData.pulse = value
-                            binding.tvPulse.text = getString(R.string.pulse, value)
-                        }
-                        if (it.contains(ISSUED_SPOT_XX)) {
-                            val value = it.substring(it.length - 4).toInt(16)
-                            viewModel.homeData.spot = value
-                            binding.tvSpot.text = getString(R.string.spot, value)
-                        }
-                        if (it.contains(ISSUED_RED_LIGHT_XX)) {
-                            val value = it.substring(it.length - 4).toInt(16)
-                            viewModel.homeData.readLight = value
-                            binding.seekRedLight.progress = value
-                        }
+                    }
+                    if (it.contains(ISSUED_ENERGY_XX)) {
+                        val value = it.substring(it.length - 4).toInt(16)
+                        viewModel.homeData.energy = value
+                        setEnergy()
+                    }
+                    if (it.contains(ISSUED_RATE_XX)) {
+                        val value = it.substring(it.length - 4).toInt(16)
+                        viewModel.homeData.rate = value
+                        setRate()
+                    }
+                    if (it.contains(ISSUES_PULSE_XXXX)) {
+                        val value = it.substring(it.length - 8).toInt(16)
+                        viewModel.homeData.pulse = value
+                        binding.tvPulse.text = getString(R.string.pulse, value)
+                    }
+                    if (it.contains(ISSUED_SPOT_XX)) {
+                        val value = it.substring(it.length - 4).toInt(16)
+                        viewModel.homeData.spot = value
+                        binding.tvSpot.text = getString(R.string.spot, value)
+                    }
+                    if (it.contains(ISSUED_RED_LIGHT_XX)) {
+                        val value = it.substring(it.length - 4).toInt(16)
+                        viewModel.homeData.readLight = value
+                        binding.seekRedLight.progress = value
                     }
                 }
             }
@@ -101,17 +100,31 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        binding.btnEnergyPlus.setOnClickListener { viewModel.sendHex(UPLOAD_ENERGY_PLUS) }
-        binding.btnEnergyMinus.setOnClickListener { viewModel.sendHex(UPLOAD_ENERGY_MINUS) }
+        binding.btnEnergyPlus.setOnClickListener {
+            if (viewModel.homeData.energy >= 10) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_ENERGY_PLUS)
+            ++viewModel.homeData.energy
+            setEnergy()
+        }
+        binding.btnEnergyMinus.setOnClickListener {
+            if (viewModel.homeData.energy <= 1) return@setOnClickListener
+            viewModel.sendHex(UPLOAD_ENERGY_MINUS)
+            --viewModel.homeData.energy
+            setEnergy()
+        }
         binding.btnRatePlus.setOnClickListener {
             if (viewModel.homeData.rate >= 10) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RATE_XX + (viewModel.homeData.rate + 1).getHexString())
-            viewModel.homeData.rate++
+            (++viewModel.homeData.rate).also {
+                viewModel.sendHex(UPLOAD_RATE_XX + it.getHexString())
+            }
+            setRate()
         }
         binding.btnRateMinus.setOnClickListener {
             if (viewModel.homeData.rate <= 1) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RATE_XX + (viewModel.homeData.rate - 1).getHexString())
-            viewModel.homeData.rate--
+            (--viewModel.homeData.rate).also {
+                viewModel.sendHex(UPLOAD_RATE_XX + it.getHexString())
+            }
+            setRate()
         }
         binding.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.homeData.switch = isChecked
@@ -134,15 +147,17 @@ class HomeFragment : Fragment() {
         })
         binding.imgRedlightPlus.setOnClickListener {
             if (viewModel.homeData.readLight >= 10) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RED_LIGHT_XX + (viewModel.homeData.readLight + 1).getHexString())
-            viewModel.homeData.readLight++
-            binding.seekRedLight.progress = viewModel.homeData.readLight
+            (++viewModel.homeData.readLight).also {
+                viewModel.sendHex(UPLOAD_RED_LIGHT_XX + it.getHexString())
+                binding.seekRedLight.progress = it
+            }
         }
         binding.imgReadlightMinus.setOnClickListener {
             if (viewModel.homeData.readLight <= 0) return@setOnClickListener
-            viewModel.sendHex(UPLOAD_RED_LIGHT_XX + (viewModel.homeData.readLight - 1).getHexString())
-            viewModel.homeData.readLight--
-            binding.seekRedLight.progress = viewModel.homeData.readLight
+            (--viewModel.homeData.readLight).also {
+                viewModel.sendHex(UPLOAD_RED_LIGHT_XX + it.getHexString())
+                binding.seekRedLight.progress = it
+            }
         }
     }
 
