@@ -105,12 +105,14 @@ class HomeFragment : Fragment() {
             viewModel.sendHex(UPLOAD_ENERGY_PLUS)
             ++viewModel.homeData.energy
             setEnergy()
+            binding.progressEnergy.setScale(viewModel.homeData.energy * 2)
         }
         binding.btnEnergyMinus.setOnClickListener {
             if (viewModel.homeData.energy <= 1) return@setOnClickListener
             viewModel.sendHex(UPLOAD_ENERGY_MINUS)
             --viewModel.homeData.energy
             setEnergy()
+            binding.progressEnergy.setScale((viewModel.homeData.energy * 2) - 2)
         }
         binding.btnRatePlus.setOnClickListener {
             if (viewModel.homeData.rate >= 10) return@setOnClickListener
@@ -118,6 +120,7 @@ class HomeFragment : Fragment() {
                 viewModel.sendHex(UPLOAD_RATE_XX + it.getHexString())
             }
             setRate()
+            binding.progressHz.setScale(viewModel.homeData.rate * 2)
         }
         binding.btnRateMinus.setOnClickListener {
             if (viewModel.homeData.rate <= 1) return@setOnClickListener
@@ -125,6 +128,7 @@ class HomeFragment : Fragment() {
                 viewModel.sendHex(UPLOAD_RATE_XX + it.getHexString())
             }
             setRate()
+            binding.progressHz.setScale((viewModel.homeData.rate * 2) - 2)
         }
         binding.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.homeData.switch = isChecked
@@ -172,13 +176,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRate() {
-        binding.tvHz.text = getString(R.string.hz, viewModel.homeData.rate)
-        binding.progressHz.setPercent(viewModel.homeData.rate * 10)
+        binding.progressHz.setText(getString(R.string.hz, viewModel.homeData.rate))  //binding.tvHz.text
+        binding.progressHz.setProgress(viewModel.homeData.rate * 10)
     }
 
     private fun setEnergy() {
-        binding.tvEnergy.text = getString(R.string.energy, viewModel.homeData.energy)
-        binding.progressEnergy.setPercent(viewModel.homeData.energy * 10)
+      //  binding.tvEnergy.text = getString(R.string.energy, viewModel.homeData.energy)
+        binding.progressEnergy.setText(getString(R.string.energy, viewModel.homeData.energy))
+        binding.progressEnergy.setProgress(viewModel.homeData.energy * 10)
     }
 
     override fun onDestroy() {

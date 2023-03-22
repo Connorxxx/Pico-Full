@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     private val _receiveEvent = MutableSharedFlow<String>()
     val receiveEvent = _receiveEvent.asSharedFlow()
 
-    private var remainingTime = 10L
+    private var remainingTime = -1L
 
     init {
         NormalSerial.instance().addDataListener { data ->
@@ -94,7 +94,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
                             }
                         }
                     }
-                    if (remainingTime <= -5184000L) remainingTime = -1
+                    if (remainingTime <= -5184000L) remainingTime = -1L
                 }
             }
         }

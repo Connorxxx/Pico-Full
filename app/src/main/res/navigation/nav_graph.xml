@@ -24,7 +24,9 @@
             android:id="@+id/action_videoFragment_to_playVideoFragment"
             app:destination="@id/playVideoFragment" />
     </fragment>
-    <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
+    <action
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment" />
     <action android:id="@+id/action_global_videoFragment" app:destination="@id/videoFragment" />
     <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
     <fragment
@@ -64,7 +66,7 @@
         android:id="@+id/tempAlertFragment"
         android:name="com.connor.picofull.ui.TempAlertFragment"
         android:label="fragment_temp_alert"
-        tools:layout="@layout/fragment_temp_alert" />
+        tools:layout="@layout/fragment_alert" />
     <action android:id="@+id/action_global_tempAlertFragment" app:destination="@id/tempAlertFragment" />
     <fragment
         android:id="@+id/flowAlertFragment"
@@ -82,5 +84,6 @@
         android:id="@+id/powerAlertFragment"
         android:name="com.connor.picofull.ui.PowerAlertFragment"
         android:label="fragment_power_alert"
-        tools:layout="@layout/fragment_power_alert" /><action android:id="@+id/action_global_powerAlertFragment" app:destination="@id/powerAlertFragment"/>
+        tools:layout="@layout/fragment_power_alert" />
+    <action android:id="@+id/action_global_powerAlertFragment" app:destination="@id/powerAlertFragment" />
 </navigation>

@@ -7,4 +7,11 @@
         <attr name="progressBarWidth" format="integer"/>
         <attr name="percent" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="SemiCircularProgressView">
+        <attr name="bgColor" format="color"/>
+        <attr name="progressColor" format="color"/>
+        <attr name="progress" format="integer"/>
+    </declare-styleable>
+
 </resources>

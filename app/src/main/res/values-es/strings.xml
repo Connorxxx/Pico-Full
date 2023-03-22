@@ -48,4 +48,8 @@
     <string name="xenon_err">氙灯文火失败，请重启！！！</string>
     <string name="flow_err">水流错误！！！</string>
     <string name="power_err">激光电源故障，请重启！！！</string>
+    <string name="temp_hight">温度太高了！！！</string>
+    <string name="xenon_alert">氙灯文火失败，请重启！！！</string>
+    <string name="flow_alert">水流错误</string>
+    <string name="power_alert">激光电源故障，请重启！！！</string>
 </resources>

@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -61,16 +62,13 @@ public class SemiCircleArcProgressBar extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
-        padding = progressBarWidth > progressPlaceHolderWidth ? progressBarWidth + 5 : progressPlaceHolderWidth + 5;
-        top = padding;
-        left = padding;
-        right = getMeasuredWidth();
-        bottom = getMeasuredHeight() * 2;
 
         float progressAmount = percent * (float) 1.8;
+
         canvas.drawArc(getProgressBarRectF(), 180, 180, false, getPaint(progressPlaceHolderColor, progressPlaceHolderWidth));      //arg2: For the starting point, the starting point is 0 degrees from the positive direction of the x coordinate system. How many angles are arg3 selected to rotate clockwise?
         canvas.drawArc(getProgressBarRectF(), 180, progressAmount, false, getPaint(progressBarColor, progressBarWidth));      //arg2: For the starting point, the starting point is 0 degrees from the positive direction of the x coordinate system. How many angles are arg3 selected to rotate clockwise?
     }
+
 
     //Private Methods
     private void setAttrs(Context context, @Nullable AttributeSet attrs)
@@ -93,17 +91,41 @@ public class SemiCircleArcProgressBar extends View
     {
         Paint paint = new Paint();
         paint.setColor(color);
-
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(strokeWidth);
         paint.setAntiAlias(true);
         paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setDither(true);
         return paint;
     }
 
     private RectF getProgressBarRectF()
     {
-        return new RectF(left, top, right - padding, bottom - (padding * 2));
+        padding = progressBarWidth > progressPlaceHolderWidth ? progressBarWidth + 5 : progressPlaceHolderWidth + 5;
+        top = padding;
+        left = padding;
+        right = getMeasuredWidth();
+        bottom = getMeasuredHeight() * 2;
+        Log.d("getProgressBarRectF", "getProgressBarRectF: left: " + left + " top: " + top + " right: " + (right - padding) + " bottom: " + (bottom - (padding * 2)));
+
+        float newR = (right - padding);
+        float newB = (bottom - (padding * 2));
+        return new RectF(left, top, newR, newB);
+    }
+
+    /**
+     * 要将半圆矩形改为圆形，可以将矩形的高度和宽度设置为相等的值，然后将矩形的四个角都设置为半径等于宽度一半的圆弧。
+     * 这里先计算出圆的直径，然后计算出圆心的坐标，最后用圆心和半径构造一个圆形的 RectF。
+     * @return
+     */
+    private RectF getRoundProgressBarRectF() {
+        padding = progressBarWidth > progressPlaceHolderWidth ? progressBarWidth + 5 : progressPlaceHolderWidth + 5;
+        float diameter = getMeasuredHeight() - padding * 2; // 直径为矩形高度减去两倍 padding
+        float centerX = getMeasuredWidth() / 2f;
+        float centerY = getMeasuredHeight() / 2f;
+        float radius = diameter / 2f;
+
+        return new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
     }
 
     //Setters
