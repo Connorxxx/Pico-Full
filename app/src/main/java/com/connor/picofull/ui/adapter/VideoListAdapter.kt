@@ -17,6 +17,7 @@ import com.connor.picofull.models.VideoInfo
 import com.connor.picofull.utils.logCat
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 @ActivityScoped

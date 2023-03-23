@@ -54,6 +54,7 @@
     <color name="orange_primary_dark">#F57C00</color>
     <color name="deep_orange_primary">#FF5722</color>
     <color name="deep_orange_primary_dark">#E64A19</color>
+    <color name="deep_orange_hight_dark">#6B1000</color>
     <color name="brown_primary">#795548</color>
     <color name="brown_primary_dark">#5D4037</color>
     <color name="grey_primary">#9E9E9E</color>

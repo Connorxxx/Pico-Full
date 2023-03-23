@@ -31,7 +31,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     val homeData = HomeData()
     val settingsData = SettingsData()
     val backstageData = BackstageData()
-    val videoList by lazy { ArrayList<VideoInfo>() }
+    val videoList = ArrayList<VideoInfo>()
 
     private val sendHexList = ArrayList<String>()
 
@@ -70,15 +70,6 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
                 }
             }
         }.launchIn(viewModelScope)
-        File(videoPath).getAllFiles().onEach { file ->
-            videoList.add(
-                VideoInfo(
-                    file,
-                    file.name.substring(0, file.name.lastIndexOf(".")),
-                    file.getVideoDuration().toSeconds().formatDuration().cutTime()
-                )
-            )
-        }
 
         if (!BuildConfig.DEBUG) {
             viewModelScope.launch(Dispatchers.Default) {

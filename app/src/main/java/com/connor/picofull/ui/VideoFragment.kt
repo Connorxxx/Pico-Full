@@ -8,19 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.connor.picofull.R
+import com.connor.picofull.constant.videoPath
 import com.connor.picofull.databinding.FragmentSettingsBinding
 import com.connor.picofull.databinding.FragmentVideoBinding
 import com.connor.picofull.models.VideoData
+import com.connor.picofull.models.VideoInfo
 import com.connor.picofull.ui.adapter.VideoListAdapter
-import com.connor.picofull.utils.logCat
+import com.connor.picofull.utils.*
 import com.connor.picofull.viewmodels.MainViewModel
 import com.permissionx.guolindev.PermissionX
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,7 +55,18 @@ class VideoFragment : Fragment() {
             val action = VideoFragmentDirections.actionVideoFragmentToPlayVideoFragment(data)
             findNavController().navigate(action)
         }
-        videoListAdapter.submitList(viewModel.videoList)
+        lifecycleScope.launch(Dispatchers.IO) {
+            File(videoPath).getAllFiles().onEach { file ->
+                viewModel.videoList.add(
+                    VideoInfo(
+                        file,
+                        file.name.substring(0, file.name.lastIndexOf(".")),
+                        file.getVideoDuration().toSeconds().formatDuration().cutTime()
+                    )
+                )
+            }
+            videoListAdapter.submitList(ArrayList(viewModel.videoList))
+        }
         return binding.root
     }
 

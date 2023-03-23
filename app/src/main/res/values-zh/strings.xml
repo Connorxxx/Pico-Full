@@ -3,7 +3,7 @@
     <string name="settings">设置</string>
     <string name="video">媒体视频</string>
     <string name="about">设备信息</string>
-    <string name="energy">%1$d /cm²</string>
+    <string name="energy">%1$d J/cm²</string>
     <string name="hz">%1$d Hz</string>
     <string name="pulse">脉冲数&#160;&#160; %1$d</string>
     <string name="spot">光斑尺寸   %1$d mm</string>

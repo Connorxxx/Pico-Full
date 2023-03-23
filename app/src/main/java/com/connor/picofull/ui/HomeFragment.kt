@@ -7,22 +7,15 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.Lifecycle.State.*
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentHomeBinding
-import com.connor.picofull.datastores.DataStoreManager
 import com.connor.picofull.utils.getHexString
-import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.repeatOnStart
+import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -59,6 +52,9 @@ class HomeFragment : Fragment() {
                             viewModel.homeData.switch = false
                             binding.toggleSwitch.isChecked = false
                         }
+                        ISSUED_FLASH -> getString(R.string.flash).showToast()
+                        ISSUED_AOD -> getString(R.string.aod).showToast()
+                        ISSUED_CLOSE -> getString(R.string.off).showToast()
                     }
                     if (it.contains(ISSUED_ENERGY_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)
@@ -105,14 +101,14 @@ class HomeFragment : Fragment() {
             viewModel.sendHex(UPLOAD_ENERGY_PLUS)
             ++viewModel.homeData.energy
             setEnergy()
-            binding.progressEnergy.setScale(viewModel.homeData.energy * 2)
+            binding.progressEnergy.setScale(viewModel.homeData.energy * 4)
         }
         binding.btnEnergyMinus.setOnClickListener {
             if (viewModel.homeData.energy <= 1) return@setOnClickListener
             viewModel.sendHex(UPLOAD_ENERGY_MINUS)
             --viewModel.homeData.energy
             setEnergy()
-            binding.progressEnergy.setScale((viewModel.homeData.energy * 2) - 2)
+            binding.progressEnergy.setScale((viewModel.homeData.energy * 4) - 1)
         }
         binding.btnRatePlus.setOnClickListener {
             if (viewModel.homeData.rate >= 10) return@setOnClickListener
@@ -120,7 +116,7 @@ class HomeFragment : Fragment() {
                 viewModel.sendHex(UPLOAD_RATE_XX + it.getHexString())
             }
             setRate()
-            binding.progressHz.setScale(viewModel.homeData.rate * 2)
+            binding.progressHz.setScale(viewModel.homeData.rate * 4)
         }
         binding.btnRateMinus.setOnClickListener {
             if (viewModel.homeData.rate <= 1) return@setOnClickListener
@@ -128,7 +124,7 @@ class HomeFragment : Fragment() {
                 viewModel.sendHex(UPLOAD_RATE_XX + it.getHexString())
             }
             setRate()
-            binding.progressHz.setScale((viewModel.homeData.rate * 2) - 2)
+            binding.progressHz.setScale((viewModel.homeData.rate * 4) - 1)
         }
         binding.toggleSwitch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.homeData.switch = isChecked
@@ -136,7 +132,7 @@ class HomeFragment : Fragment() {
             else viewModel.sendHex(UPLOAD_OFF)
         }
         binding.btnFlash.setOnClickListener { viewModel.sendHex(UPLOAD_FLASH) }
-        binding.btnAod.setOnClickListener { viewModel.sendHex(UPLOAD_ADD) }
+        binding.btnAod.setOnClickListener { viewModel.sendHex(UPLOAD_AOD) }
         binding.btnOff.setOnClickListener { viewModel.sendHex(UPLOAD_CLOSE) }
         binding.seekRedLight.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, i: Int, p2: Boolean) {}
@@ -168,6 +164,8 @@ class HomeFragment : Fragment() {
     private fun initUIState() {
         setEnergy()
         setRate()
+        binding.progressEnergy.setScale(viewModel.homeData.energy * 4)
+        binding.progressHz.setScale(viewModel.homeData.rate * 4)
         binding.tvPulse.text = getString(R.string.pulse, viewModel.homeData.pulse)
         binding.tvSpot.text = getString(R.string.spot, viewModel.homeData.spot)
         binding.toggleSwitch.isChecked = viewModel.homeData.switch
@@ -176,13 +174,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRate() {
-        binding.progressHz.setText(getString(R.string.hz, viewModel.homeData.rate))  //binding.tvHz.text
+        binding.tvHz.text = getString(R.string.hz, viewModel.homeData.rate)  //binding.tvHz.text
         binding.progressHz.setProgress(viewModel.homeData.rate * 10)
     }
 
     private fun setEnergy() {
-      //  binding.tvEnergy.text = getString(R.string.energy, viewModel.homeData.energy)
-        binding.progressEnergy.setText(getString(R.string.energy, viewModel.homeData.energy))
+        binding.tvEnergy.text = getString(R.string.energy, viewModel.homeData.energy)
+      //  binding.progressEnergy.setText(getString(R.string.energy, viewModel.homeData.energy))
         binding.progressEnergy.setProgress(viewModel.homeData.energy * 10)
     }
 

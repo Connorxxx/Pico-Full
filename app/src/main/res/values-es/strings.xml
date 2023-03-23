@@ -4,7 +4,7 @@
     <string name="settings">Ajustes</string>
     <string name="video">Video</string>
     <string name="about">Acerca de</string>
-    <string name="energy">%1$d /cm²</string>
+    <string name="energy">%1$d J/cm²</string>
     <string name="hz">%1$d Hz</string>
     <string name="pulse">Legumbres &#160;&#160; %1$d</string>
     <string name="spot">Tamaño del punto   %1$d mm</string>

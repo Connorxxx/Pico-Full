@@ -3,7 +3,7 @@
     <string name="settings">Settings</string>
     <string name="video">Video</string>
     <string name="about">About Device</string>
-    <string name="energy">%1$d /cm²</string>
+    <string name="energy">%1$d J/cm²</string>
     <string name="hz">%1$d Hz</string>
     <string name="pulse">Pulse &#160;&#160; %1$d</string>
     <string name="spot">Spot size   %1$d mm</string>

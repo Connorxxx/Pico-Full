@@ -21,6 +21,7 @@
             android:layout_width="380dp"
             android:layout_height="380dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_energy"
             app:percent="30"
@@ -110,6 +111,7 @@
             android:layout_width="380dp"
             android:layout_height="380dp"
             android:layout_marginStart="-10dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/toggle_group"
             app:layout_constraintTop_toBottomOf="@+id/tv_hz"
             app:percent="30"
@@ -187,9 +189,9 @@
             android:checked="false"
             android:textOff=""
             android:textOn=""
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/progress_hz"
-            app:layout_constraintStart_toEndOf="@+id/progress_energy"
-            app:layout_constraintTop_toBottomOf="@+id/rg_energy" />
+            app:layout_constraintStart_toEndOf="@+id/progress_energy" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
