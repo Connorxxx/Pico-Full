@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
@@ -36,7 +37,8 @@ class VideoFragment : Fragment() {
     private var _binding: FragmentVideoBinding? = null
     private val binding get() = _binding!!
 
-    @Inject lateinit var videoListAdapter: VideoListAdapter
+    @Inject
+    lateinit var videoListAdapter: VideoListAdapter
 
     private val viewModel by activityViewModels<MainViewModel>()
 
@@ -55,7 +57,8 @@ class VideoFragment : Fragment() {
             val action = VideoFragmentDirections.actionVideoFragmentToPlayVideoFragment(data)
             findNavController().navigate(action)
         }
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch {
+            viewModel.videoList.clear()
             File(videoPath).getAllFiles().onEach { file ->
                 viewModel.videoList.add(
                     VideoInfo(
@@ -65,6 +68,7 @@ class VideoFragment : Fragment() {
                     )
                 )
             }
+            viewModel.videoList.size.logCat()
             videoListAdapter.submitList(ArrayList(viewModel.videoList))
         }
         return binding.root

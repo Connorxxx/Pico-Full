@@ -58,13 +58,17 @@ class HomeFragment : Fragment() {
                     }
                     if (it.contains(ISSUED_ENERGY_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)
+                        if (value > 10) return@collect
                         viewModel.homeData.energy = value
                         setEnergy()
+                        binding.progressHz.setScale(viewModel.homeData.rate * 4)
                     }
                     if (it.contains(ISSUED_RATE_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)
+                        if (value > 10) return@collect
                         viewModel.homeData.rate = value
                         setRate()
+                        binding.progressHz.setScale(viewModel.homeData.rate * 4)
                     }
                     if (it.contains(ISSUES_PULSE_XXXX)) {
                         val value = it.substring(it.length - 8).toInt(16)

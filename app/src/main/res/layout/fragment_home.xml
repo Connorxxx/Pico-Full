@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.HomeFragment" >
+    tools:context=".ui.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -18,8 +18,8 @@
 
         <com.connor.picofull.ui.view.Test
             android:id="@+id/progress_energy"
-            android:layout_width="380dp"
-            android:layout_height="380dp"
+            android:layout_width="@dimen/energy_wh"
+            android:layout_height="@dimen/energy_wh"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="86dp"
+            android:layout_marginTop="@dimen/energy_text"
             android:text="@string/energy_density"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/progress_energy"
@@ -92,7 +92,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="@dimen/energy_rg"
                 android:text="PLUS"
                 android:textColor="@color/black" />
 
@@ -101,15 +101,15 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="@dimen/energy_rg"
                 android:text="MINUS"
                 android:textColor="@color/black" />
         </LinearLayout>
 
         <com.connor.picofull.ui.view.Test
             android:id="@+id/progress_hz"
-            android:layout_width="380dp"
-            android:layout_height="380dp"
+            android:layout_width="@dimen/energy_wh"
+            android:layout_height="@dimen/energy_wh"
             android:layout_marginStart="-10dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/toggle_group"
@@ -134,7 +134,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="86dp"
+            android:layout_marginTop="@dimen/energy_text"
             android:text="@string/rate"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/progress_hz"
@@ -156,7 +156,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="@dimen/energy_rg"
                 android:text="PLUS"
                 android:textColor="@color/black" />
 
@@ -165,7 +165,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="@dimen/energy_rg"
                 android:text="MINUS"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -251,12 +251,11 @@
         android:id="@+id/seek_red_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:max="10"
         android:progress="4"
         app:layout_constraintBottom_toBottomOf="@+id/img_redlight_plus"
         app:layout_constraintEnd_toStartOf="@+id/img_redlight_plus"
-        app:layout_constraintStart_toStartOf="@+id/btn_flash"
+        app:layout_constraintStart_toStartOf="@+id/guideline12"
         app:layout_constraintTop_toTopOf="@+id/img_redlight_plus" />
 
     <ImageView
@@ -278,6 +277,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/img_readlight_minus"
         app:layout_constraintEnd_toStartOf="@+id/img_readlight_minus"
         app:layout_constraintTop_toTopOf="@+id/img_readlight_minus" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

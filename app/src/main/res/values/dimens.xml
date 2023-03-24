@@ -3,4 +3,8 @@
     <dimen name="stroke_width">54dp</dimen>
     <dimen name="text_size">12sp</dimen>
     <dimen name="scale_margin">52dp</dimen>
+
+    <dimen name="energy_wh">380dp</dimen>
+    <dimen name="energy_text">86dp</dimen>
+    <dimen name="energy_rg">24dp</dimen>
 </resources>

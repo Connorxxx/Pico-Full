@@ -11,7 +11,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.connor.picofull.App
 import com.connor.picofull.BuildConfig
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -48,13 +50,14 @@ fun String.hexToString(): String {
     return stringBuilder.toString()
 }
 
-fun File.getAllFiles(): ArrayList<File> {
+suspend fun File.getAllFiles(): ArrayList<File> = withContext(Dispatchers.IO) {
     val files = ArrayList<File>()
     if (isDirectory) {
         listFiles()?.forEach { files.addAll(it.getAllFiles()) }
-    } else files.add(this)
-    return files
+    } else if (name.endsWith(".mp4")) files.add(this@getAllFiles)
+    files
 }
+
 
 fun File.getVideoDuration(): Long {
     val mediaMetadataRetriever = MediaMetadataRetriever()

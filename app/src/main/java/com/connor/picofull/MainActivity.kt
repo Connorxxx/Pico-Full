@@ -2,10 +2,13 @@ package com.connor.picofull
 
 import android.Manifest
 import android.os.Bundle
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -161,6 +164,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        hideSystemUI(window)
+    }
+
     private fun sandVisible(visible: Boolean) {
         binding.radioSettings.isVisible = visible
         binding.radioVideo.isVisible = visible
@@ -169,6 +177,16 @@ class MainActivity : AppCompatActivity() {
     private fun gotoHome() {
         binding.rgMain.clearCheck()
         navController.navigate(R.id.action_global_homeFragment)
+    }
+
+    private fun hideSystemUI(window: Window) {
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        window.decorView.setOnApplyWindowInsetsListener { v, windowInsets ->
+            windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+            v.onApplyWindowInsets(windowInsets)
+        }
     }
 
 
