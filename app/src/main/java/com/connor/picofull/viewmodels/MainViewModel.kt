@@ -43,6 +43,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     init {
         NormalSerial.instance().addDataListener { data ->
             sendHexList.clear()
+            Int.MAX_VALUE
             viewModelScope.launch { _receiveEvent.emit(data) }
         }
         dataStoreManager.languageFlow.filterNotNull().onEach { id ->

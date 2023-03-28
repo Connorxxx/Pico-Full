@@ -1,25 +1,19 @@
 package com.connor.picofull.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentBackstageBinding
-import com.connor.picofull.databinding.FragmentHomeBinding
 import com.connor.picofull.utils.getHexString
-import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint

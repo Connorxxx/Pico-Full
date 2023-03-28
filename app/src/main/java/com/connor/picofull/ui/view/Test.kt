@@ -39,7 +39,7 @@ class Test @JvmOverloads constructor(
         isAntiAlias = true
         strokeCap = Paint.Cap.ROUND
         isDither = true
-        paint.setShadowLayer(18f, 15f, 15f, Color.GRAY)
+       // paint.setShadowLayer(18f, 15f, 15f, Color.GRAY)
     }
 
     private val fcPaint = Paint().apply {

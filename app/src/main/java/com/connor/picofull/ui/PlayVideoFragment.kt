@@ -4,33 +4,26 @@ import android.content.Context.AUDIO_SERVICE
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.connor.picofull.MainActivity
 import com.connor.picofull.R
 import com.connor.picofull.databinding.FragmentPlayVideoBinding
-import com.connor.picofull.databinding.FragmentVideoBinding
 import com.connor.picofull.databinding.LayoutVideoControlBinding
 import com.connor.picofull.models.VideoData
-import com.connor.picofull.utils.logCat
 import com.connor.picofull.viewmodels.MainViewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PlayVideoFragment : Fragment() {

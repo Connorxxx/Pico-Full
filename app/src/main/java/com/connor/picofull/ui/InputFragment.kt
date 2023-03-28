@@ -14,7 +14,6 @@ import com.connor.picofull.R
 import com.connor.picofull.constant.UPLOAD_INPUT_XXXX
 import com.connor.picofull.databinding.FragmentInputBinding
 import com.connor.picofull.utils.getHexString
-import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel
 

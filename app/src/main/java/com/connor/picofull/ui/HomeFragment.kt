@@ -71,17 +71,19 @@ class HomeFragment : Fragment() {
                         binding.progressHz.setScale(viewModel.homeData.rate * 4)
                     }
                     if (it.contains(ISSUES_PULSE_XXXX)) {
-                        val value = it.substring(it.length - 8).toInt(16)
+                        val value = it.substring(it.length - 8).toLong(16)
                         viewModel.homeData.pulse = value
                         binding.tvPulse.text = getString(R.string.pulse, value)
                     }
                     if (it.contains(ISSUED_SPOT_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)
+                        if (value < 2 || value > 10) return@collect
                         viewModel.homeData.spot = value
                         binding.tvSpot.text = getString(R.string.spot, value)
                     }
                     if (it.contains(ISSUED_RED_LIGHT_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)
+                        if (value <= 1 || value >= 10) return@collect
                         viewModel.homeData.readLight = value
                         binding.seekRedLight.progress = value
                     }
@@ -157,7 +159,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.imgReadlightMinus.setOnClickListener {
-            if (viewModel.homeData.readLight <= 0) return@setOnClickListener
+            if (viewModel.homeData.readLight <= 1) return@setOnClickListener
             (--viewModel.homeData.readLight).also {
                 viewModel.sendHex(UPLOAD_RED_LIGHT_XX + it.getHexString())
                 binding.seekRedLight.progress = it

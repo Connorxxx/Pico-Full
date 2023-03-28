@@ -8,4 +8,14 @@ fun main() {
         println(it)
         println(it.hexToString())
     }
+    "ffffffff".toLong(16).also {
+        println(it)
+    }
+    test()
+}
+
+fun test() {
+    val it = "5AA505821042000A"
+    val value = it.substring(it.length - 2).toInt(16)
+    println(value)
 }

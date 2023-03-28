@@ -1,10 +1,10 @@
 package com.connor.picofull.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.connor.picofull.R
 import dagger.hilt.android.AndroidEntryPoint
 

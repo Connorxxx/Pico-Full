@@ -5,14 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.connor.picofull.MainActivity
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentSettingsBinding
@@ -20,13 +14,7 @@ import com.connor.picofull.utils.getHexString
 import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -72,7 +60,7 @@ class SettingsFragment : Fragment() {
             }
         })
         binding.imgVolumeMinus.setOnClickListener {
-            if (viewModel.settingsData.volume <= 0) return@setOnClickListener
+            if (viewModel.settingsData.volume <= 1) return@setOnClickListener
             viewModel.sendHex(UPLOAD_VOLUME_X + (viewModel.settingsData.volume - 1).getHexString(2))
             viewModel.settingsData.volume--
             binding.seekVolume.progress = viewModel.settingsData.volume
@@ -92,7 +80,8 @@ class SettingsFragment : Fragment() {
                         ISSUED_BUZZ_ON -> binding.radioBuzzOn.isChecked = true
                     }
                     if (it.contains(ISSUED_VOLUME_X)) {
-                        val value = it.substring(it.length - 2).toInt()
+                        val value = it.substring(it.length - 2).toInt(16)
+                        if (value < 1 || value > 10) return@collect
                         viewModel.settingsData.volume = value
                         binding.seekVolume.progress = value
                     }
