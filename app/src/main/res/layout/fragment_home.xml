@@ -29,38 +29,21 @@
             app:progressBarWidth="20"
             app:progressPlaceHolderWidth="10" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
+        <ImageView
             android:id="@+id/toggle_group"
-            android:layout_width="wrap_content"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-10dp"
+            android:layout_marginStart="@dimen/home_three"
+            android:src="@drawable/img_1064"
             app:layout_constraintStart_toEndOf="@+id/progress_energy"
-            app:layout_constraintTop_toTopOf="@+id/tv_energy"
-            app:selectionRequired="true"
-            app:singleSelection="true">
-
-            <Button
-                android:id="@+id/btn_1064"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1064nm" />
-
-            <Button
-                android:id="@+id/btn_523"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="532nm" />
-
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+            app:layout_constraintTop_toTopOf="@+id/tv_energy" />
 
         <TextView
             android:id="@+id/tv_energy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/progress_energy"
             app:layout_constraintStart_toStartOf="@+id/progress_energy"
             app:layout_constraintTop_toTopOf="parent"
@@ -72,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/energy_text"
             android:text="@string/energy_density"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/progress_energy"
             app:layout_constraintStart_toStartOf="@+id/progress_energy"
@@ -81,36 +65,32 @@
             android:id="@+id/rg_energy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@+id/progress_energy"
             app:layout_constraintStart_toStartOf="@+id/progress_energy"
             app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_energy_plus"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="@dimen/energy_rg"
-                android:text="PLUS"
-                android:textColor="@color/black" />
+                android:src="@drawable/ic_plus_uncheck" />
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_energy_minus"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="@dimen/energy_rg"
-                android:text="MINUS"
-                android:textColor="@color/black" />
+                android:src="@drawable/ic_minus_uncheck" />
         </LinearLayout>
 
         <com.connor.picofull.ui.view.Test
             android:id="@+id/progress_hz"
             android:layout_width="@dimen/energy_wh"
             android:layout_height="@dimen/energy_wh"
-            android:layout_marginStart="-10dp"
+            android:layout_marginStart="@dimen/home_three"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/toggle_group"
             app:layout_constraintTop_toBottomOf="@+id/tv_hz"
@@ -124,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/progress_hz"
             app:layout_constraintStart_toStartOf="@+id/progress_hz"
             app:layout_constraintTop_toTopOf="parent"
@@ -136,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/energy_text"
             android:text="@string/rate"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/progress_hz"
             app:layout_constraintStart_toStartOf="@+id/progress_hz"
@@ -145,48 +126,55 @@
             android:id="@+id/layout_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@+id/progress_hz"
             app:layout_constraintStart_toStartOf="@+id/progress_hz"
             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_rate_plus"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="@dimen/energy_rg"
-                android:text="PLUS"
-                android:textColor="@color/black" />
+                android:src="@drawable/ic_plus_uncheck" />
 
-            <Button
+            <ImageView
                 android:id="@+id/btn_rate_minus"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="@dimen/energy_rg"
-                android:text="MINUS"
-                android:textColor="@color/black" />
+                android:src="@drawable/ic_minus_uncheck" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_pulse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/layout_rate"
+            android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@+id/layout_rate"
             app:layout_constraintTop_toBottomOf="@+id/layout_rate"
             tools:text="脉冲数" />
 
-        <ToggleButton
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_pulse_w"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_pulse"
+            app:layout_constraintStart_toEndOf="@+id/tv_pulse"
+            app:layout_constraintTop_toTopOf="@+id/tv_pulse" />
+
+        <ImageView
             android:id="@+id/toggle_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:button="@drawable/toggle_switch"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="24dp"
             android:checked="false"
+            android:src="@drawable/ic_stop"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toBottomOf="parent"
@@ -202,38 +190,36 @@
         android:layout_marginStart="32dp"
         android:layout_marginBottom="42dp"
         android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="光斑尺寸" />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageView
         android:id="@+id/btn_off"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="62dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/off"
+        android:src="@drawable/img_off"
         app:layout_constraintBottom_toTopOf="@+id/img_redlight_plus"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageView
         android:id="@+id/btn_aod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/aod"
+        android:src="@drawable/img_aod"
         app:layout_constraintBottom_toBottomOf="@+id/btn_off"
         app:layout_constraintEnd_toStartOf="@id/btn_off" />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageView
         android:id="@+id/btn_flash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/flash"
+        android:src="@drawable/img_flash"
         app:layout_constraintBottom_toBottomOf="@+id/btn_aod"
         app:layout_constraintEnd_toStartOf="@id/btn_aod" />
 
@@ -250,9 +236,12 @@
     <SeekBar
         android:id="@+id/seek_red_light"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:max="10"
         android:progress="4"
+        android:thumb="@drawable/bump"
+        android:progressTint="@color/orange_primary_dark"
+        android:progressBackgroundTint="@color/gray_light"
         app:layout_constraintBottom_toBottomOf="@+id/img_redlight_plus"
         app:layout_constraintEnd_toStartOf="@+id/img_redlight_plus"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
@@ -274,6 +263,7 @@
         android:layout_marginEnd="32dp"
         android:text="@string/red_light"
         android:textSize="20sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/img_readlight_minus"
         app:layout_constraintEnd_toStartOf="@+id/img_readlight_minus"
         app:layout_constraintTop_toTopOf="@+id/img_readlight_minus" />

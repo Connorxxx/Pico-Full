@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import coil.load
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentBackstageBinding
+import com.connor.picofull.models.type.BtnType
+import com.connor.picofull.models.type.onLogin
 import com.connor.picofull.utils.getHexString
+import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel

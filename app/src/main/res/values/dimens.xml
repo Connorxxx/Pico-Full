@@ -6,5 +6,6 @@
 
     <dimen name="energy_wh">380dp</dimen>
     <dimen name="energy_text">86dp</dimen>
-    <dimen name="energy_rg">24dp</dimen>
+    <dimen name="energy_rg">44dp</dimen>
+    <dimen name="home_three">-60dp</dimen>
 </resources>

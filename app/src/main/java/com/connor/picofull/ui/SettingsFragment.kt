@@ -1,5 +1,6 @@
 package com.connor.picofull.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ class SettingsFragment : Fragment() {
 
     private val viewModel by activityViewModels<MainViewModel>()
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,16 +51,19 @@ class SettingsFragment : Fragment() {
         binding.rgLanguage.setOnCheckedChangeListener { _, id ->
             viewModel.storeLanguage(id)
         }
-        binding.seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
-            override fun onStartTrackingTouch(p0: SeekBar?) {}
-            override fun onStopTrackingTouch(v: SeekBar?) {
-                v?.progress?.let {
-                    viewModel.settingsData.volume = it
-                    viewModel.sendHex(UPLOAD_VOLUME_X + it.getHexString(2))
-                }
-            }
-        })
+//        binding.seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
+//            override fun onStartTrackingTouch(p0: SeekBar?) {}
+//            override fun onStopTrackingTouch(v: SeekBar?) {
+//                v?.progress?.let {
+//                    viewModel.settingsData.volume = it
+//                    viewModel.sendHex(UPLOAD_VOLUME_X + it.getHexString(2))
+//                }
+//            }
+//        })
+        binding.seekVolume.setOnTouchListener { _, _ ->
+            return@setOnTouchListener true
+        }
         binding.imgVolumeMinus.setOnClickListener {
             if (viewModel.settingsData.volume <= 1) return@setOnClickListener
             viewModel.sendHex(UPLOAD_VOLUME_X + (viewModel.settingsData.volume - 1).getHexString(2))

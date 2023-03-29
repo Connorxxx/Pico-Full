@@ -38,8 +38,7 @@ class InputFragment : Fragment() {
                 setOnEditorActionListener { textView, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length >= 4) {
                         viewModel.sendHex(UPLOAD_INPUT_XXXX + text.toString().getHexString())
-                        if (text.toString() == "1234") findNavController().navigate(R.id.action_inputFragment_to_backstageFragment)
-                        else getString(R.string.password_error).showToast(); setText("")
+                         findNavController().navigate(R.id.action_inputFragment_to_backstageFragment)
                     } else getString(R.string.password_tips).showToast()
                     return@setOnEditorActionListener true
                 }

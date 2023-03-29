@@ -28,17 +28,16 @@
         android:layout_height="wrap_content"
         android:text="@string/sum"
         android:textSize="30sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_marginStart="64dp"
-        android:backgroundTint="@color/black"
-        android:minHeight="12dp"
-        android:text="@string/clear"
+        android:src="@drawable/img_bs_clear"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
@@ -50,6 +49,7 @@
         android:layout_marginTop="32dp"
         android:textSize="30sp"
         android:text="@string/login"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -85,6 +85,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/energy_bg"
         android:textSize="30sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -105,6 +106,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="36dp"
         android:paddingEnd="36dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/btn_energy_minus"
         app:layout_constraintStart_toEndOf="@id/btn_energy_minus"
         app:layout_constraintTop_toTopOf="@id/btn_energy_minus"
@@ -129,6 +131,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/voltage"
         android:textSize="30sp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -149,6 +152,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="36dp"
         android:paddingEnd="36dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/btn_voltage_minus"
         app:layout_constraintStart_toEndOf="@+id/btn_voltage_minus"
         app:layout_constraintTop_toTopOf="@+id/btn_voltage_minus"

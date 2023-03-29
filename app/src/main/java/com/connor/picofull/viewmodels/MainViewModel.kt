@@ -3,9 +3,11 @@ package com.connor.picofull.viewmodels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.connor.picofull.BuildConfig
 import com.connor.picofull.R
+import com.connor.picofull.constant.UPLOAD_1064
 import com.connor.picofull.constant.UPLOAD_532
 import com.connor.picofull.constant.videoPath
 import com.connor.picofull.datastores.DataStoreManager
@@ -13,6 +15,7 @@ import com.connor.picofull.models.BackstageData
 import com.connor.picofull.models.HomeData
 import com.connor.picofull.models.SettingsData
 import com.connor.picofull.models.VideoInfo
+import com.connor.picofull.models.type.BtnType
 import com.connor.picofull.utils.*
 import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +40,11 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
 
     private val _receiveEvent = MutableSharedFlow<String>()
     val receiveEvent = _receiveEvent.asSharedFlow()
+
+    private val _btnEvent = MutableSharedFlow<BtnType>()
+    val btnEvent = _btnEvent.asSharedFlow()
+
+    val waveState = dataStoreManager.waveFLow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),false)
 
     private var remainingTime = -1L
 
@@ -91,6 +99,16 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
             }
         }
 
+        viewModelScope.launch {
+            delay(180)
+            if (!homeData.waveId) {
+                sendHex(UPLOAD_1064)
+                "1064".logCat()
+            } else {
+                sendHex(UPLOAD_532)
+                "532".logCat()
+            }
+        }
     }
 
 
@@ -100,9 +118,21 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
         NormalSerial.instance().sendHex(hex)
     }
 
+    fun senBtnEvent(btnType: BtnType) {
+        viewModelScope.launch {
+            _btnEvent.emit(btnType)
+        }
+    }
+
     fun storeLanguage(value: Int) {
         viewModelScope.launch {
             dataStoreManager.storeLanguage(value)
+        }
+    }
+
+    fun storeWave(value: Boolean) {
+        viewModelScope.launch {
+            dataStoreManager.storeWave(value)
         }
     }
 }

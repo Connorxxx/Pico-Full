@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.withTranslation
 import com.connor.picofull.R
 import kotlin.math.PI
 import kotlin.math.cos
