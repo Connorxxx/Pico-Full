@@ -9,9 +9,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,6 +22,9 @@
             android:layout_height="@dimen/energy_wh"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="-64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/toggle_group"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_energy"
             app:percent="30"
@@ -33,9 +36,9 @@
             android:id="@+id/toggle_group"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/home_three"
             android:src="@drawable/img_1064"
-            app:layout_constraintStart_toEndOf="@+id/progress_energy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_energy" />
 
         <TextView
@@ -65,7 +68,7 @@
             android:id="@+id/rg_energy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/home_rg"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@+id/progress_energy"
             app:layout_constraintStart_toStartOf="@+id/progress_energy"
@@ -73,25 +76,27 @@
 
             <ImageView
                 android:id="@+id/btn_energy_plus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/home_btn"
+                android:layout_height="@dimen/home_btn"
                 android:layout_marginEnd="@dimen/energy_rg"
                 android:src="@drawable/ic_plus_uncheck" />
 
             <ImageView
                 android:id="@+id/btn_energy_minus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/home_btn"
+                android:layout_height="@dimen/home_btn"
                 android:layout_marginStart="@dimen/energy_rg"
                 android:src="@drawable/ic_minus_uncheck" />
         </LinearLayout>
 
         <com.connor.picofull.ui.view.Test
             android:id="@+id/progress_hz"
-            android:layout_width="@dimen/energy_wh"
+            android:layout_width="0dp"
             android:layout_height="@dimen/energy_wh"
-            android:layout_marginStart="@dimen/home_three"
+            android:layout_marginStart="-64dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/toggle_group"
             app:layout_constraintTop_toBottomOf="@+id/tv_hz"
             app:percent="30"
@@ -126,7 +131,7 @@
             android:id="@+id/layout_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/home_rg"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@+id/progress_hz"
             app:layout_constraintStart_toStartOf="@+id/progress_hz"
@@ -134,15 +139,15 @@
 
             <ImageView
                 android:id="@+id/btn_rate_plus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/home_btn"
+                android:layout_height="@dimen/home_btn"
                 android:layout_marginEnd="@dimen/energy_rg"
                 android:src="@drawable/ic_plus_uncheck" />
 
             <ImageView
                 android:id="@+id/btn_rate_minus"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/home_btn"
+                android:layout_height="@dimen/home_btn"
                 android:layout_marginStart="@dimen/energy_rg"
                 android:src="@drawable/ic_minus_uncheck" />
         </LinearLayout>
@@ -151,35 +156,36 @@
             android:id="@+id/tv_pulse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:textSize="12sp"
+            android:layout_marginStart="-24dp"
+            android:layout_marginTop="@dimen/home_pulse"
             android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/layout_rate"
             app:layout_constraintStart_toStartOf="@+id/layout_rate"
             app:layout_constraintTop_toBottomOf="@+id/layout_rate"
             tools:text="脉冲数" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_pulse_w"
+            android:layout_width="@dimen/pulse_w"
+            android:layout_height="@dimen/pulse_w"
             android:layout_marginStart="24dp"
+            android:src="@drawable/ic_pulse_w"
             app:layout_constraintBottom_toBottomOf="@+id/tv_pulse"
             app:layout_constraintStart_toEndOf="@+id/tv_pulse"
             app:layout_constraintTop_toTopOf="@+id/tv_pulse" />
 
         <ImageView
             android:id="@+id/toggle_switch"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="@dimen/toggle_switch"
+            android:layout_height="@dimen/toggle_switch"
+            android:layout_marginBottom="46dp"
             android:checked="false"
             android:src="@drawable/ic_stop"
             android:textOff=""
             android:textOn=""
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/progress_hz"
-            app:layout_constraintStart_toEndOf="@+id/progress_energy" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

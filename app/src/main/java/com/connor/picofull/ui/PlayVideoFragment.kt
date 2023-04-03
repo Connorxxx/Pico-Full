@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -18,9 +19,12 @@ import com.connor.picofull.R
 import com.connor.picofull.databinding.FragmentPlayVideoBinding
 import com.connor.picofull.databinding.LayoutVideoControlBinding
 import com.connor.picofull.models.VideoData
+import com.connor.picofull.utils.inLand
+import com.connor.picofull.utils.logCat
 import com.connor.picofull.viewmodels.MainViewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -46,19 +50,61 @@ class PlayVideoFragment : Fragment() {
         _binding = FragmentPlayVideoBinding.inflate(inflater, container, false)
         val view = binding.root
         _videoBinding = LayoutVideoControlBinding.bind(view)
+        if (requireContext().inLand()) {
+            binding.guideline13.setGuidelinePercent(0.08f)
+            binding.guideline14.setGuidelinePercent(0.92f)
+        } else {
+            binding.guideline13.setGuidelinePercent(0.02f)
+            binding.guideline14.setGuidelinePercent(0.98f)
+        }
         binding.playerView.player = player
         binding.playerControlView.player = binding.playerView.player
         val data = Json.decodeFromString<VideoData>(args.data)
         (activity as AppCompatActivity).supportActionBar?.title = data.videoName
+
         val uri = Uri.parse(data.videoPath)
         val mediaItem = MediaItem.fromUri(uri)
         player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
+
+        player.addListener(object : Player.Listener {
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (isPlaying) {
+                    binding.imgStartPlay.isVisible = false
+                    "ISPLAY".logCat()
+                } else {
+                    binding.imgStartPlay.isVisible = true
+                    "NotPlay".logCat()
+                }
+            }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_BUFFERING -> {
+                        "STATE_BUFFERING".logCat()
+                    }
+                    Player.STATE_READY -> {
+                        "STATE_READY".logCat()
+                    }
+                    Player.STATE_ENDED -> {
+                        player.seekTo(0)
+                    }
+                    Player.STATE_IDLE -> {
+                        "STATE_IDLE".logCat()
+                    }
+                }
+            }
+        })
+
+        binding.imgStartPlay.setOnClickListener {
+            player.play()
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_playVideoFragment_to_videoFragment)
         }
-        val audioManager  = requireActivity().getSystemService(AUDIO_SERVICE) as AudioManager
+        val audioManager = requireActivity().getSystemService(AUDIO_SERVICE) as AudioManager
         val max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         val curr = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         with(videoBinding.seekBarVolume) {
@@ -66,8 +112,9 @@ class PlayVideoFragment : Fragment() {
             progress = curr
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, i: Int, p2: Boolean) {
-                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,i,0)
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, i, 0)
                 }
+
                 override fun onStartTrackingTouch(p0: SeekBar?) {}
                 override fun onStopTrackingTouch(p0: SeekBar?) {}
             })

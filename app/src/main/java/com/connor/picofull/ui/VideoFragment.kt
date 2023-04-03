@@ -56,7 +56,7 @@ class VideoFragment : Fragment() {
                     VideoInfo(
                         file,
                         file.name.substring(0, file.name.lastIndexOf(".")),
-                        file.getVideoDuration().toSeconds().formatDuration().cutTime()
+                        file.getVideoDuration().formatDuration()
                     )
                 )
             }

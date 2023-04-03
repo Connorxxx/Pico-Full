@@ -65,7 +65,7 @@ class SettingsFragment : Fragment() {
             return@setOnTouchListener true
         }
         binding.imgVolumeMinus.setOnClickListener {
-            if (viewModel.settingsData.volume <= 1) return@setOnClickListener
+            if (viewModel.settingsData.volume <= 0) return@setOnClickListener
             viewModel.sendHex(UPLOAD_VOLUME_X + (viewModel.settingsData.volume - 1).getHexString(2))
             viewModel.settingsData.volume--
             binding.seekVolume.progress = viewModel.settingsData.volume
@@ -86,7 +86,7 @@ class SettingsFragment : Fragment() {
                     }
                     if (it.contains(ISSUED_VOLUME_X)) {
                         val value = it.substring(it.length - 2).toInt(16)
-                        if (value < 1 || value > 10) return@collect
+                        if (value < 0 || value > 10) return@collect
                         viewModel.settingsData.volume = value
                         binding.seekVolume.progress = value
                     }

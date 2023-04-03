@@ -32,15 +32,28 @@
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
-    <ImageView
-        android:id="@+id/btn_clear"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
         android:layout_marginStart="64dp"
-        android:src="@drawable/img_bs_clear"
+        android:background="@color/white"
+        android:gravity="center"
+        android:minWidth="120dp"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/guideline11" />
+
+    <ImageView
+        android:id="@+id/btn_clear"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="-4dp"
+        android:src="@drawable/img_new_clean"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_count"
+        app:layout_constraintStart_toEndOf="@+id/tv_count"
+        app:layout_constraintTop_toTopOf="@+id/tv_count" />
 
     <TextView
         android:id="@+id/textView7"
@@ -53,73 +66,110 @@
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
+    <ImageView
         android:id="@+id/toggle_login"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:src="@drawable/img_bs_off"
+        app:layout_constraintStart_toStartOf="@+id/tv_count"
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/btn_clear"
-        app:layout_constraintTop_toTopOf="@+id/textView7"
-        app:selectionRequired="true"
-        app:singleSelection="true">
+        android:layout_marginTop="32dp"
+        android:text="@string/serial_port"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-        <Button
-            android:id="@+id/btn_open"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/open" />
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/exit_tips"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-        <Button
-            android:id="@+id/btn_close"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/close" />
+    <Button
+        android:id="@+id/btn_exit_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/gray_deep"
+        android:minWidth="10dp"
+        android:minHeight="20dp"
+        android:text="@string/exit_tips"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/edit_serial"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
 
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+    <EditText
+        android:id="@+id/edit_serial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_serial"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray_light"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="@+id/toggle_login"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+    <Button
+        android:id="@+id/btn_save_serial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/gray_deep"
+        android:text="@string/ok"
+        android:minWidth="10dp"
+        android:minHeight="20dp"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_serial"
+        app:layout_constraintStart_toEndOf="@+id/edit_serial"
+        app:layout_constraintTop_toTopOf="@+id/edit_serial" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="@string/energy_bg"
-        android:textSize="30sp"
+        android:layout_marginTop="32dp"
         android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_energy_minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:minWidth="10dp"
-        android:minHeight="10dp"
-        android:text="-"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/img_bg_minus"
         app:layout_constraintStart_toStartOf="@+id/toggle_login"
         app:layout_constraintTop_toTopOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/tv_energy_value"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:paddingStart="36dp"
         android:paddingEnd="36dp"
+        android:gravity="center"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/btn_energy_minus"
         app:layout_constraintStart_toEndOf="@id/btn_energy_minus"
         app:layout_constraintTop_toTopOf="@id/btn_energy_minus"
         tools:text="20" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_energy_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:minWidth="10dp"
-        android:minHeight="10dp"
-        android:text="+"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/img_bs_plus"
         app:layout_constraintBottom_toBottomOf="@+id/tv_energy_value"
         app:layout_constraintStart_toEndOf="@+id/tv_energy_value"
         app:layout_constraintTop_toTopOf="@+id/tv_energy_value" />
@@ -135,37 +185,34 @@
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_voltage_minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:backgroundTint="@color/black"
-        android:minWidth="10dp"
-        android:minHeight="10dp"
-        android:text="-"
+        android:src="@drawable/img_bg_minus"
         app:layout_constraintStart_toStartOf="@+id/btn_energy_minus"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/tv_voltage_value"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:paddingStart="36dp"
         android:paddingEnd="36dp"
         android:background="@color/white"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/btn_voltage_minus"
         app:layout_constraintStart_toEndOf="@+id/btn_voltage_minus"
         app:layout_constraintTop_toTopOf="@+id/btn_voltage_minus"
         tools:text="30" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_voltage_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:backgroundTint="@color/black"
-        android:minWidth="10dp"
-        android:minHeight="10dp"
-        android:text="+"
+        android:src="@drawable/img_bs_plus"
         app:layout_constraintBottom_toBottomOf="@+id/tv_voltage_value"
         app:layout_constraintStart_toEndOf="@+id/tv_voltage_value"
         app:layout_constraintTop_toTopOf="@+id/tv_voltage_value" />

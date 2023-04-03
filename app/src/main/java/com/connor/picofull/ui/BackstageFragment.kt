@@ -12,12 +12,16 @@ import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentBackstageBinding
 import com.connor.picofull.models.type.BtnType
 import com.connor.picofull.models.type.onLogin
+import com.connor.picofull.ui.dialog.AlertDialogFragment
+import com.connor.picofull.ui.dialog.ExitDialogFragment
 import com.connor.picofull.utils.getHexString
 import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -38,12 +42,22 @@ class BackstageFragment : Fragment() {
         initClick()
         repeatOnStart {
             launch {
+                viewModel.btnEvent.collect { type ->
+                    with(type) {
+                        onLogin {
+                            viewModel.backstageData.loginState = it
+                            loginState(it)
+                        }
+                    }
+                }
+            }
+            launch {
                 viewModel.receiveEvent.collect {
-                    if (it == ISSUED_CLEAR) "清除成功".showToast()
+                    if (it == ISSUED_CLEAR) viewModel.homeData.pulse = 0
                     if (it.contains(ISSUED_LOGIN_X)) {
                         when (it.substring(it.length - 2).toInt(16)) {
-                            0 -> binding.toggleLogin.check(R.id.btn_open)
-                            1 -> binding.toggleLogin.check(R.id.btn_close)
+                            0 -> viewModel.senBtnEvent(BtnType.Login(true))
+                            1 -> viewModel.senBtnEvent(BtnType.Login(false))
                         }
                     }
                     if (it.contains(ISSUED_ENERGY_BACKSTAGE_XX_X)) {
@@ -58,23 +72,31 @@ class BackstageFragment : Fragment() {
                             viewModel.backstageData.voltage = v
                         }
                     }
+                    if (it.contains(ISSUES_PULSE_XXXX)) {
+                        delay(90)
+                        binding.tvCount.text = getString(R.string.pulse, viewModel.homeData.pulse)
+                    }
                 }
             }
         }
         return binding.root
     }
 
+    private fun loginState(it: Boolean) {
+        binding.toggleLogin.load(if (it) R.drawable.img_bs_on else R.drawable.img_bs_off)
+    }
+
     private fun initClick() {
         binding.btnClear.setOnClickListener {
             viewModel.sendHex(UPLOAD_CLEAR)
+//            viewModel.backstageData.clear = true
+//            binding.btnClear.load(R.drawable.img_bg_clear_on)
         }
-        binding.toggleLogin.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (isChecked) {
-                viewModel.backstageData.loginId = checkedId
-                when (checkedId) {
-                    R.id.btn_open -> viewModel.sendHex(UPLOAD_LOGIN_X + "00")
-                    R.id.btn_close -> viewModel.sendHex(UPLOAD_LOGIN_X + "01")
-                }
+        binding.toggleLogin.setOnClickListener {
+            viewModel.backstageData.loginState.also {
+                viewModel.senBtnEvent(BtnType.Login(!it))
+                "start Click ${!it}".logCat()
+                if (!it) viewModel.sendHex(UPLOAD_LOGIN_X + "00") else viewModel.sendHex(UPLOAD_LOGIN_X + "01")
             }
         }
         binding.btnEnergyPlus.setOnClickListener {
@@ -103,12 +125,26 @@ class BackstageFragment : Fragment() {
                 binding.tvVoltageValue.text = getString(R.string.voltage_value, it)
             }
         }
+        binding.btnSaveSerial.setOnClickListener {
+            binding.editSerial.text.toString().also {
+                if (it != viewModel.serialPort.toString()) {
+                    if (it.matches("[0-9]+".toRegex())) {
+                        viewModel.storeSerial(it.toInt())
+                    }
+                }
+            }
+        }
+        binding.btnExitApp.setOnClickListener {
+            ExitDialogFragment().show(childFragmentManager, "AlertDialogFragment.TAG")
+        }
     }
 
     private fun initUI() {
-        viewModel.backstageData.loginId?.let { binding.toggleLogin.check(it) }
+        loginState(viewModel.backstageData.loginState)
         binding.tvEnergyValue.text = viewModel.backstageData.energy.toString()
         binding.tvVoltageValue.text = viewModel.backstageData.voltage.toString()
+        if (viewModel.backstageData.clear) binding.btnClear.load(R.drawable.img_bg_clear_on)
+        binding.editSerial.setText(viewModel.serialPort.toString())
     }
 
     override fun onDestroy() {

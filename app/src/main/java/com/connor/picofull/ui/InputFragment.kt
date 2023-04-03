@@ -14,6 +14,7 @@ import com.connor.picofull.R
 import com.connor.picofull.constant.UPLOAD_INPUT_XXXX
 import com.connor.picofull.databinding.FragmentInputBinding
 import com.connor.picofull.utils.getHexString
+import com.connor.picofull.utils.isAlphaNumeric
 import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel
 
@@ -37,8 +38,10 @@ class InputFragment : Fragment() {
                 imm.showSoftInput(this, 0)
                 setOnEditorActionListener { textView, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length >= 4) {
-                        viewModel.sendHex(UPLOAD_INPUT_XXXX + text.toString().getHexString())
-                         findNavController().navigate(R.id.action_inputFragment_to_backstageFragment)
+                        if (text.toString().isAlphaNumeric()) {
+                            viewModel.sendHex(UPLOAD_INPUT_XXXX + text.toString().getHexString())
+                            findNavController().navigate(R.id.action_inputFragment_to_backstageFragment)
+                        } else "请输入字母或者数字".showToast()
                     } else getString(R.string.password_tips).showToast()
                     return@setOnEditorActionListener true
                 }

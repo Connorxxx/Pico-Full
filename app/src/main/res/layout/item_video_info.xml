@@ -45,13 +45,16 @@
 
         <TextView
             android:id="@+id/tv_video_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="46dp"
+            android:singleLine="true"
             android:text="@{m.videoName}"
-            android:textSize="22sp"
             android:textColor="@color/app_yellow_dark"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_videl_lenght"
             app:layout_constraintStart_toStartOf="@+id/card_video"
             app:layout_constraintTop_toBottomOf="@+id/card_video"
             tools:text="Video name" />

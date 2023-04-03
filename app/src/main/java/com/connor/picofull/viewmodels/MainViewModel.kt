@@ -1,5 +1,6 @@
 package com.connor.picofull.viewmodels
 
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.connor.picofull.BuildConfig
 import com.connor.picofull.R
+import com.connor.picofull.constant.ISSUES_PULSE_XXXX
 import com.connor.picofull.constant.UPLOAD_1064
 import com.connor.picofull.constant.UPLOAD_532
 import com.connor.picofull.constant.videoPath
@@ -17,9 +19,12 @@ import com.connor.picofull.models.SettingsData
 import com.connor.picofull.models.VideoInfo
 import com.connor.picofull.models.type.BtnType
 import com.connor.picofull.utils.*
+import com.connor.picofull.zc.Device
+import com.connor.picofull.zc.SerialPortFinder
 import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -36,6 +41,8 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     val backstageData = BackstageData()
     val videoList = ArrayList<VideoInfo>()
 
+    var serialPort = 0
+
     private val sendHexList = ArrayList<String>()
 
     private val _receiveEvent = MutableSharedFlow<String>()
@@ -44,16 +51,48 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     private val _btnEvent = MutableSharedFlow<BtnType>()
     val btnEvent = _btnEvent.asSharedFlow()
 
-    val waveState = dataStoreManager.waveFLow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000),false)
+    private var isActiveFlow = false
+
+    val waveState = dataStoreManager.waveFLow.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        false
+    )
+
+    val serialFlow = dataStoreManager.serialFlow.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(3000),
+        0
+    )
 
     private var remainingTime = -1L
 
     init {
+        SerialPortFinder().allDevices.forEach {
+            it.logCat()
+        }
+        viewModelScope.launch {
+            launch {
+                delay(280)
+                if (!homeData.waveId) {
+                    sendHex(UPLOAD_1064)
+                    "1064".logCat()
+                } else {
+                    sendHex(UPLOAD_532)
+                    "532".logCat()
+                }
+            }
+        }
         NormalSerial.instance().addDataListener { data ->
             sendHexList.clear()
             Int.MAX_VALUE
+            if (data.contains(ISSUES_PULSE_XXXX)) {
+                val value = data.substring(data.length - 8).toLong(16)
+                homeData.pulse = value
+            }
             viewModelScope.launch { _receiveEvent.emit(data) }
         }
+
         dataStoreManager.languageFlow.filterNotNull().onEach { id ->
             settingsData.language = id
             when (id) {
@@ -80,35 +119,24 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
             }
         }.launchIn(viewModelScope)
 
-        if (!BuildConfig.DEBUG) {
-            viewModelScope.launch(Dispatchers.Default) {
-                while (true) {
-                    delay(1000)
-                    remainingTime--
-                    remainingTime.logCat()
-                    if (remainingTime == 0L) {
-                        if (sendHexList.isNotEmpty()) {
-                            sendHexList.forEach { hex ->
-                                remainingTime = 10L
-                                NormalSerial.instance().sendHex(hex)
-                            }
-                        }
-                    }
-                    if (remainingTime <= -5184000L) remainingTime = -1L
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            delay(180)
-            if (!homeData.waveId) {
-                sendHex(UPLOAD_1064)
-                "1064".logCat()
-            } else {
-                sendHex(UPLOAD_532)
-                "532".logCat()
-            }
-        }
+//        if (!BuildConfig.DEBUG) {
+//            viewModelScope.launch(Dispatchers.Default) {
+//                while (true) {
+//                    delay(1000)
+//                    remainingTime--
+//                    remainingTime.logCat()
+//                    if (remainingTime == 0L) {
+//                        if (sendHexList.isNotEmpty()) {
+//                            sendHexList.forEach { hex ->
+//                                remainingTime = 10L
+//                                NormalSerial.instance().sendHex(hex)
+//                            }
+//                        }
+//                    }
+//                    if (remainingTime <= -5184000L) remainingTime = -1L
+//                }
+//            }
+//        }
     }
 
 
@@ -134,5 +162,17 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
         viewModelScope.launch {
             dataStoreManager.storeWave(value)
         }
+    }
+
+    fun storeSerial(value: Int) {
+        viewModelScope.launch {
+            dataStoreManager.storeSerial(value)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        "onCleared".logCat()
+        NormalSerial.instance().close()
     }
 }

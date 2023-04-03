@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,8 +31,8 @@
 
         <ImageView
             android:id="@+id/exo_prev"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/control"
+            android:layout_height="@dimen/control"
             android:layout_marginBottom="24dp"
             app:srcCompat="@drawable/img_skip_previous" />
 
@@ -43,15 +42,15 @@
 
             <ImageView
                 android:id="@+id/exo_play"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/control"
+                android:layout_height="@dimen/control"
                 android:layout_marginStart="12dp"
                 app:srcCompat="@drawable/img_play_arrow" />
 
             <ImageView
                 android:id="@+id/exo_pause"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/control"
+                android:layout_height="@dimen/control"
                 android:layout_marginStart="12dp"
                 app:srcCompat="@drawable/img_pause" />
         </RelativeLayout>
@@ -59,8 +58,8 @@
 
         <ImageView
             android:id="@+id/exo_ffwd"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/control"
+            android:layout_height="@dimen/control"
             android:layout_marginStart="12dp"
             app:srcCompat="@drawable/img_skip_next" />
     </LinearLayout>
@@ -107,15 +106,15 @@
             android:layout_marginBottom="12dp"
             android:contentDescription="@null"
             android:text="1"
-            android:textColor="@color/deep_orange_primary"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/control"
+        android:layout_height="@dimen/control"
         android:layout_marginStart="32dp"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="@+id/linearLayout"

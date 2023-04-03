@@ -9,6 +9,7 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
@@ -106,9 +107,10 @@ class HomeFragment : Fragment() {
                         binding.progressHz.setScale(viewModel.homeData.rate * 4)
                     }
                     if (it.contains(ISSUES_PULSE_XXXX)) {
-                        val value = it.substring(it.length - 8).toLong(16)
-                        viewModel.homeData.pulse = value
-                        binding.tvPulse.text = getString(R.string.pulse, value)
+//                        val value = it.substring(it.length - 8).toLong(16)
+//                        viewModel.homeData.pulse = value
+                        delay(90)
+                        binding.tvPulse.text = getString(R.string.pulse, viewModel.homeData.pulse)
                     }
                     if (it.contains(ISSUED_SPOT_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)

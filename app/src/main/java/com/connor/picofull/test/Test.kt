@@ -12,6 +12,14 @@ fun main() {
         println(it)
     }
     test()
+    "5AA5078210160A0B0C0D".also {
+        it.substring(it.length - 8).toLong(16).also {
+            println(it)
+        }
+    }
+    val o = "42".toInt(16).toChar().toString()
+    val s = "31".toInt(16).toChar().toString()
+    println("$o $s")
 }
 
 fun test() {

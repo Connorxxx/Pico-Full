@@ -12,7 +12,7 @@
         android:id="@+id/imageView"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        android:src="@drawable/warning"
+        android:src="@drawable/img_alert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,6 +21,7 @@
         android:id="@+id/tv_alert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textColor="@color/google_red"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="@+id/imageView"

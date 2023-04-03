@@ -1,6 +1,7 @@
 package com.connor.picofull.utils
 
 import android.content.Context
+import android.content.res.Configuration
 import android.media.MediaMetadataRetriever
 import android.util.Log
 import android.widget.Toast
@@ -15,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileInputStream
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -50,6 +52,11 @@ fun String.hexToString(): String {
     return stringBuilder.toString()
 }
 
+fun String.isAlphaNumeric(): Boolean {
+    val pattern = Regex("^[a-zA-Z0-9]+$")
+    return pattern.matches(this)
+}
+
 suspend fun File.getAllFiles(): ArrayList<File> = withContext(Dispatchers.IO) {
     val files = ArrayList<File>()
     if (isDirectory) {
@@ -62,7 +69,7 @@ suspend fun File.getAllFiles(): ArrayList<File> = withContext(Dispatchers.IO) {
 fun File.getVideoDuration(): Long {
     val mediaMetadataRetriever = MediaMetadataRetriever()
     mediaMetadataRetriever.setDataSource(this.absolutePath)
-    return mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
+    return mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong()?.toSeconds() ?: 0
 }
 
 fun Long.toSeconds(): Long = this / 1000
@@ -71,10 +78,11 @@ fun Long.formatDuration(): String {
     val hours = TimeUnit.SECONDS.toHours(this)
     val minutes = TimeUnit.SECONDS.toMinutes(this) % 60
     val seconds = this % 60
-    return String.format("%d:%02d:%02d", hours, minutes, seconds)
+    return buildString {
+        if (hours > 0 ) append(String.format("%d:", hours))
+        append(String.format("%02d:%02d", minutes, seconds))
+    }
 }
-
-fun String.cutTime() = if (this.startsWith("0:")) this.substring(this.length - 5) else this
 
 fun Fragment.repeatOnStart(block: CoroutineScope.() -> Unit) {
     viewLifecycleOwner.lifecycleScope.launch {
@@ -82,5 +90,27 @@ fun Fragment.repeatOnStart(block: CoroutineScope.() -> Unit) {
             block()
         }
     }
+}
+
+fun readIniFile(filePath: String): Properties {
+    val properties = Properties()
+    val inputStream = FileInputStream(filePath)
+    properties.load(inputStream)
+    inputStream.close()
+    return properties
+}
+
+fun getIniValue(filePath: String, section: String, key: String): String? {
+    val properties = readIniFile(filePath)
+    return properties.getProperty("$section.$key")
+}
+
+fun Context.inLand(): Boolean {
+    val configuration = this.resources.configuration
+    val orientation = configuration.orientation
+    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        return true
+    }
+    return false
 }
 

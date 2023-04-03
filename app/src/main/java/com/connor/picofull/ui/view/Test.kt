@@ -80,7 +80,7 @@ class Test @JvmOverloads constructor(
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        radius = min(w, h) * 0.45f
+        radius = min(w, h) * 0.49f
         rectF.set(-radius, -radius, radius, radius)
         rectF.offset(w / 2f, h / 2f)
 
@@ -125,6 +125,7 @@ class Test @JvmOverloads constructor(
         val endY = height / 2f + radius * sin(endAngle * PI / 180f).toFloat()
 
         canvas?.apply {
+
             drawArc(rectF, 165f, 210f, false, bgPaint)
             drawArc(rectF, 165f, p, false, paint)
             drawCircle(endX, endY, 12f, fcPaint)

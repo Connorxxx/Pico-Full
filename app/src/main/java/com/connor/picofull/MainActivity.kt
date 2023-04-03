@@ -21,6 +21,7 @@ import com.connor.picofull.ui.dialog.AlertDialogFragment
 import com.connor.picofull.utils.logCat
 import com.connor.picofull.viewmodels.MainViewModel
 import com.permissionx.guolindev.PermissionX
+import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbarMain.title = when (destination.id) {
-                R.id.homeFragment -> getString(R.string.app_name)
+                R.id.homeFragment -> getString(R.string.home_name)
                 R.id.settingsFragment -> getString(R.string.settings)
                 R.id.videoFragment -> getString(R.string.video)
                 R.id.aboutFragment -> getString(R.string.about)
@@ -60,6 +61,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.powerAlertFragment -> getString(R.string.alert)
                 else -> getString(R.string.app_name)
             }
+
             binding.imgBack.isVisible = when (destination.id) {
                 R.id.homeFragment -> false
                 else -> true
@@ -86,6 +88,12 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
             binding.layoutHome.isVisible = !binding.layoutAlert.isVisible
+            binding.guideline.setGuidelinePercent(
+                when (destination.id) {
+                    R.id.playVideoFragment -> 0.1f
+                    else -> 0.14f
+                }
+            )
         }
         binding.rgMain.setOnCheckedChangeListener { _, id ->
             when (id) {
@@ -119,6 +127,17 @@ class MainActivity : AppCompatActivity() {
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.serialFlow.collect {
+                        if (NormalSerial.instance().isOpen) {
+                            NormalSerial.instance().close()
+                            "close".logCat()
+                        }
+                        "open $it".logCat()
+                        viewModel.serialPort = it
+                        NormalSerial.instance().open("/dev/ttyS$it", 9600)
+                    }
+                }
                 launch {
                     viewModel.receiveEvent.collect {
                         it.logCat()
@@ -157,10 +176,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         onBackPressedDispatcher.addCallback(this) {
-            if (navController.currentDestination?.id == R.id.homeFragment) AlertDialogFragment(
-                title = getString(R.string.exit_tips),
-                msg = getString(R.string.exit_msg)
-            ) { finish() }.show(supportFragmentManager, AlertDialogFragment.TAG)
+            if (navController.currentDestination?.id == R.id.homeFragment) "not here".logCat()
             else gotoHome()
         }
     }
@@ -188,6 +204,11 @@ class MainActivity : AppCompatActivity() {
             windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
             v.onApplyWindowInsets(windowInsets)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        "Destroy".logCat()
     }
 
 

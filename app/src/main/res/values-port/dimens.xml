@@ -8,4 +8,9 @@
     <dimen name="energy_text">56dp</dimen>
     <dimen name="energy_rg">24dp</dimen>
     <dimen name="home_three">-30dp</dimen>
+    <dimen name="home_rg">8dp</dimen>
+    <dimen name="home_btn">20dp</dimen>
+    <dimen name="home_pulse">8dp</dimen>
+    <dimen name="pulse_w">10dp</dimen>
+    <dimen name="toggle_switch">100dp</dimen>
 </resources>
