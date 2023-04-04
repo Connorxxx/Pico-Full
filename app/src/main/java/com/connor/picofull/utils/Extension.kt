@@ -37,7 +37,7 @@ fun String.getHexString(): String {
 }
 
 fun String.showToast() {
-    Toast.makeText(App.app, this, Toast.LENGTH_SHORT).show()
+    Toast.makeText(App.app, this, Toast.LENGTH_LONG).show()
 }
 
 fun String.hexToString(): String {

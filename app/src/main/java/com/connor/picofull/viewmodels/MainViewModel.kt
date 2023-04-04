@@ -40,8 +40,9 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     val settingsData = SettingsData()
     val backstageData = BackstageData()
     val videoList = ArrayList<VideoInfo>()
+    val items = ArrayList<String>()
 
-    var serialPort = 0
+    var serialPort = ""
 
     private val sendHexList = ArrayList<String>()
 
@@ -51,41 +52,27 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     private val _btnEvent = MutableSharedFlow<BtnType>()
     val btnEvent = _btnEvent.asSharedFlow()
 
-    private var isActiveFlow = false
-
     val waveState = dataStoreManager.waveFLow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         false
     )
 
-    val serialFlow = dataStoreManager.serialFlow.stateIn(
+    val serialFlow = dataStoreManager.serialFlow.shareIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(3000),
-        0
     )
 
     private var remainingTime = -1L
 
     init {
         SerialPortFinder().allDevices.forEach {
-            it.logCat()
-        }
-        viewModelScope.launch {
-            launch {
-                delay(280)
-                if (!homeData.waveId) {
-                    sendHex(UPLOAD_1064)
-                    "1064".logCat()
-                } else {
-                    sendHex(UPLOAD_532)
-                    "532".logCat()
-                }
-            }
+            val ser = it.replace("\\s\\(.*?\\)".toRegex(), "")
+            items.add(ser)
         }
         NormalSerial.instance().addDataListener { data ->
+            data.logCat()
             sendHexList.clear()
-            Int.MAX_VALUE
             if (data.contains(ISSUES_PULSE_XXXX)) {
                 val value = data.substring(data.length - 8).toLong(16)
                 homeData.pulse = value
@@ -139,6 +126,19 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
 //        }
     }
 
+    fun sendWave() {
+        viewModelScope.launch {
+            delay(280)
+            if (!homeData.waveId) {
+                sendHex(UPLOAD_1064)
+                "1064".logCat()
+            } else {
+                sendHex(UPLOAD_532)
+                "532".logCat()
+            }
+        }
+    }
+
 
     fun sendHex(hex: String) {
         sendHexList.add(hex)
@@ -164,7 +164,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
         }
     }
 
-    fun storeSerial(value: Int) {
+    fun storeSerial(value: String) {
         viewModelScope.launch {
             dataStoreManager.storeSerial(value)
         }

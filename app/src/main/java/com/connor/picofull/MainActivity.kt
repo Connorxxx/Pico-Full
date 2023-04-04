@@ -19,10 +19,12 @@ import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.ActivityMainBinding
 import com.connor.picofull.ui.dialog.AlertDialogFragment
 import com.connor.picofull.utils.logCat
+import com.connor.picofull.utils.showToast
 import com.connor.picofull.viewmodels.MainViewModel
 import com.permissionx.guolindev.PermissionX
 import com.vi.vioserial.NormalSerial
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -87,6 +89,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.powerAlertFragment -> true
                 else -> false
             }
+            binding.toolbarMain.setTitleTextColor(
+                when (destination.id) {
+                    R.id.tempAlertFragment,
+                    R.id.flowAlertFragment,
+                    R.id.xenonAlertFragment,
+                    R.id.powerAlertFragment -> getColor(R.color.google_red)
+                    else -> getColor(R.color.white)
+                }
+            )
             binding.layoutHome.isVisible = !binding.layoutAlert.isVisible
             binding.guideline.setGuidelinePercent(
                 when (destination.id) {
@@ -131,11 +142,17 @@ class MainActivity : AppCompatActivity() {
                     viewModel.serialFlow.collect {
                         if (NormalSerial.instance().isOpen) {
                             NormalSerial.instance().close()
-                            "close".logCat()
                         }
                         "open $it".logCat()
-                        viewModel.serialPort = it
-                        NormalSerial.instance().open("/dev/ttyS$it", 9600)
+                        it?.let {
+                            "it? $it".logCat()
+                            viewModel.serialPort = it
+                            NormalSerial.instance().open("/dev/$it", 9600)
+                            viewModel.sendWave()
+                        } ?: viewModel.items.first().also { port ->
+                            viewModel.storeSerial(port)
+                            getString(R.string.current_serial_port, port).showToast()
+                        }
                     }
                 }
                 launch {

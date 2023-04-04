@@ -18,7 +18,7 @@
 
         <com.connor.picofull.ui.view.Test
             android:id="@+id/progress_energy"
-            android:layout_width="@dimen/energy_wh"
+            android:layout_width="0dp"
             android:layout_height="@dimen/energy_wh"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
@@ -53,7 +55,10 @@ class BackstageFragment : Fragment() {
             }
             launch {
                 viewModel.receiveEvent.collect {
-                    if (it == ISSUED_CLEAR) viewModel.homeData.pulse = 0
+                    if (it == ISSUED_CLEAR) {
+                        viewModel.homeData.pulse = 0
+                        binding.tvCount.text = ""
+                    }
                     if (it.contains(ISSUED_LOGIN_X)) {
                         when (it.substring(it.length - 2).toInt(16)) {
                             0 -> viewModel.senBtnEvent(BtnType.Login(true))
@@ -74,7 +79,7 @@ class BackstageFragment : Fragment() {
                     }
                     if (it.contains(ISSUES_PULSE_XXXX)) {
                         delay(90)
-                        binding.tvCount.text = getString(R.string.pulse, viewModel.homeData.pulse)
+                        binding.tvCount.text = viewModel.homeData.pulse.toString()
                     }
                 }
             }
@@ -89,6 +94,8 @@ class BackstageFragment : Fragment() {
     private fun initClick() {
         binding.btnClear.setOnClickListener {
             viewModel.sendHex(UPLOAD_CLEAR)
+            viewModel.homeData.pulse = 0
+            binding.tvCount.text = ""
 //            viewModel.backstageData.clear = true
 //            binding.btnClear.load(R.drawable.img_bg_clear_on)
         }
@@ -100,6 +107,7 @@ class BackstageFragment : Fragment() {
             }
         }
         binding.btnEnergyPlus.setOnClickListener {
+            if (viewModel.backstageData.energy >= 10) return@setOnClickListener
             viewModel.sendHex(UPLOAD_ENERGY_BACKSTAGE_X_XX + "01")
             (++viewModel.backstageData.energy).also {
                 binding.tvEnergyValue.text = getString(R.string.energy_value, it)
@@ -113,27 +121,47 @@ class BackstageFragment : Fragment() {
             }
         }
         binding.btnVoltagePlus.setOnClickListener {
+            if (viewModel.backstageData.voltage >= 10) return@setOnClickListener
             (++viewModel.backstageData.voltage).also {
                 viewModel.sendHex(UPLOAD_VOLTAGE_X_XX + it.getHexString(2))
-                binding.tvVoltageValue.text = getString(R.string.voltage_value, it)
+                binding.tvVoltageValue.text = it.toString()
             }
         }
         binding.btnVoltageMinus.setOnClickListener {
             if (viewModel.backstageData.voltage <= 0) return@setOnClickListener
             (--viewModel.backstageData.voltage).also {
                 viewModel.sendHex(UPLOAD_VOLTAGE_X_XX + it.getHexString(2))
-                binding.tvVoltageValue.text = getString(R.string.voltage_value, it)
+                binding.tvVoltageValue.text = it.toString()
             }
         }
-        binding.btnSaveSerial.setOnClickListener {
-            binding.editSerial.text.toString().also {
-                if (it != viewModel.serialPort.toString()) {
-                    if (it.matches("[0-9]+".toRegex())) {
-                        viewModel.storeSerial(it.toInt())
-                    }
+//        binding.btnSaveSerial.setOnClickListener {
+//            binding.editSerial.text.toString().also {
+//                if (it != viewModel.serialPort.toString()) {
+//                    if (it.matches("[0-9]+".toRegex())) {
+//                        viewModel.storeSerial(it.toInt())
+//                    }
+//                }
+//            }
+//        }
+
+        viewModel.items.indexOf(viewModel.serialPort).also {
+            "posiotn $it".logCat()
+        }
+
+        binding.editSerial.post {
+            binding.editSerial.setSelection(viewModel.items.indexOf(viewModel.serialPort), true)
+
+            binding.editSerial.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, pos: Int, p3: Long) {
+                    viewModel.items[pos].logCat()
+                    viewModel.storeSerial(viewModel.items[pos])
                 }
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
         }
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, viewModel.items)
+        binding.editSerial.adapter = adapter
+
         binding.btnExitApp.setOnClickListener {
             ExitDialogFragment().show(childFragmentManager, "AlertDialogFragment.TAG")
         }
@@ -144,7 +172,10 @@ class BackstageFragment : Fragment() {
         binding.tvEnergyValue.text = viewModel.backstageData.energy.toString()
         binding.tvVoltageValue.text = viewModel.backstageData.voltage.toString()
         if (viewModel.backstageData.clear) binding.btnClear.load(R.drawable.img_bg_clear_on)
-        binding.editSerial.setText(viewModel.serialPort.toString())
+        if (viewModel.homeData.pulse != 0L) {
+            binding.tvCount.text = viewModel.homeData.pulse.toString()
+        }
+       // binding.editSerial.setText(viewModel.serialPort.toString())
     }
 
     override fun onDestroy() {

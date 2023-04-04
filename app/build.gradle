@@ -16,7 +16,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "1.0.0-test"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,7 +49,7 @@ android {
 
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
 
-                if (variant.buildType.name.equals('release')) {
+                if (variant.buildType.name == 'release') {
                     outputFileName = "PicoFull_${defaultConfig.versionName}.apk"
                 }
 

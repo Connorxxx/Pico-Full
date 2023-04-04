@@ -80,7 +80,7 @@ class Test @JvmOverloads constructor(
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        radius = min(w, h) * 0.49f
+        radius = min(w, h) * 0.48f
         rectF.set(-radius, -radius, radius, radius)
         rectF.offset(w / 2f, h / 2f)
 

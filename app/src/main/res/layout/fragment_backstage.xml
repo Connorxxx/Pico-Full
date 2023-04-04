@@ -38,6 +38,7 @@
         android:layout_height="26dp"
         android:layout_marginStart="64dp"
         android:background="@color/white"
+        android:textColor="@color/black"
         android:gravity="center"
         android:minWidth="120dp"
         android:text=""
@@ -108,30 +109,16 @@
         app:layout_constraintStart_toStartOf="@+id/edit_serial"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
-    <EditText
+    <Spinner
         android:id="@+id/edit_serial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/input_serial"
-        android:textColor="@color/white"
-        android:textColorHint="@color/gray_light"
-        android:inputType="number"
+        android:spinnerMode="dropdown"
+        android:popupBackground="@color/black"
+        android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="@+id/toggle_login"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
 
-    <Button
-        android:id="@+id/btn_save_serial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/gray_deep"
-        android:text="@string/ok"
-        android:minWidth="10dp"
-        android:minHeight="20dp"
-        android:layout_marginStart="12dp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_serial"
-        app:layout_constraintStart_toEndOf="@+id/edit_serial"
-        app:layout_constraintTop_toTopOf="@+id/edit_serial" />
 
     <TextView
         android:id="@+id/textView8"

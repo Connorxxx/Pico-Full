@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.connor.picofull.utils.logCat
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,13 +26,13 @@ class DataStoreManager @Inject constructor(@ApplicationContext context: Context)
 
     private val waveState = booleanPreferencesKey("wave_state")
 
-    private val serialPort = intPreferencesKey("serial_port")
+    private val serialPort = stringPreferencesKey("serial_port")
 
     val languageFlow = getDataStore.data.map { it[languageID] }.flowOn(Dispatchers.IO)
 
     val waveFLow = getDataStore.data.map { it[waveState] ?: false }.flowOn(Dispatchers.IO)
 
-    val serialFlow = getDataStore.data.map { it[serialPort] ?: 0 }
+    val serialFlow = getDataStore.data.map { it[serialPort]}
 
     suspend fun storeLanguage(value: Int) {
         getDataStore.edit {
@@ -45,7 +46,7 @@ class DataStoreManager @Inject constructor(@ApplicationContext context: Context)
         }
     }
 
-    suspend fun storeSerial(value: Int) {
+    suspend fun storeSerial(value: String) {
         getDataStore.edit {
             it[serialPort] = value
         }

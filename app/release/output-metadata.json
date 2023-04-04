@@ -12,8 +12,8 @@
       "filters": [],
       "attributes": [],
       "versionCode": 1,
-      "versionName": "1.0.0-test",
-      "outputFile": "PicoFull_1.0.0-test.apk"
+      "versionName": "1.0.0",
+      "outputFile": "PicoFull_1.0.0.apk"
     }
   ],
   "elementType": "File"
