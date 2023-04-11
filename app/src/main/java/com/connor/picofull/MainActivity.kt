@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -201,6 +202,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         hideSystemUI(window)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        "onResume".logCat()
     }
 
     private fun sandVisible(visible: Boolean) {

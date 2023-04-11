@@ -9,6 +9,8 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentSettingsBinding
@@ -83,6 +85,10 @@ class SettingsFragment : Fragment() {
         }
         binding.rgLanguage.setOnCheckedChangeListener { _, id ->
             viewModel.storeLanguage(id)
+            lifecycleScope.launch {
+                delay(250)
+                findNavController().navigate(R.id.settingsFragment, arguments, NavOptions.Builder().setPopUpTo(R.id.settingsFragment,true).build())
+            }
         }
 //        binding.seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 //            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
