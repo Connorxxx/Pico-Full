@@ -88,7 +88,7 @@ class BackstageFragment : Fragment() {
     }
 
     private fun loginState(it: Boolean) {
-        binding.toggleLogin.load(if (it) R.drawable.img_bs_on else R.drawable.img_bs_off)
+        binding.toggleLogin.load(if (it) R.drawable.img_bs_on_a else R.drawable.img_bs_off_a)
     }
 
     private fun initClick() {
@@ -107,7 +107,7 @@ class BackstageFragment : Fragment() {
             }
         }
         binding.btnEnergyPlus.setOnClickListener {
-            if (viewModel.backstageData.energy >= 10) return@setOnClickListener
+           // if (viewModel.backstageData.energy >= 10) return@setOnClickListener
             viewModel.sendHex(UPLOAD_ENERGY_BACKSTAGE_X_XX + "01")
             (++viewModel.backstageData.energy).also {
                 binding.tvEnergyValue.text = getString(R.string.energy_value, it)
@@ -121,7 +121,7 @@ class BackstageFragment : Fragment() {
             }
         }
         binding.btnVoltagePlus.setOnClickListener {
-            if (viewModel.backstageData.voltage >= 10) return@setOnClickListener
+         //   if (viewModel.backstageData.voltage >= 10) return@setOnClickListener
             (++viewModel.backstageData.voltage).also {
                 viewModel.sendHex(UPLOAD_VOLTAGE_X_XX + it.getHexString(2))
                 binding.tvVoltageValue.text = it.toString()
@@ -171,7 +171,7 @@ class BackstageFragment : Fragment() {
         loginState(viewModel.backstageData.loginState)
         binding.tvEnergyValue.text = viewModel.backstageData.energy.toString()
         binding.tvVoltageValue.text = viewModel.backstageData.voltage.toString()
-        if (viewModel.backstageData.clear) binding.btnClear.load(R.drawable.img_bg_clear_on)
+        //if (viewModel.backstageData.clear) binding.btnClear.load(R.drawable.img_bg_clear_on)
         if (viewModel.homeData.pulse != 0L) {
             binding.tvCount.text = viewModel.homeData.pulse.toString()
         }

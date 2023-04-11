@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sum"
-        android:textSize="30sp"
+        android:textSize="@dimen/bs_font"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
@@ -36,22 +36,25 @@
         android:id="@+id/tv_count"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="86dp"
         android:background="@color/white"
-        android:textColor="@color/black"
         android:gravity="center"
         android:minWidth="120dp"
         android:text=""
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
-    <ImageView
+    <TextView
         android:id="@+id/btn_clear"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:text="@string/bs_reset"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="-4dp"
-        android:src="@drawable/img_new_clean"
+        android:background="@drawable/img_new_clean_a"
         app:layout_constraintBottom_toBottomOf="@+id/tv_count"
         app:layout_constraintStart_toEndOf="@+id/tv_count"
         app:layout_constraintTop_toTopOf="@+id/tv_count" />
@@ -60,29 +63,72 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textSize="30sp"
+        android:layout_marginTop="@dimen/bs_top"
+        android:textSize="@dimen/bs_font"
         android:text="@string/login"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <ImageView
-        android:id="@+id/toggle_login"
+    <FrameLayout
         android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:src="@drawable/img_bs_off"
-        app:layout_constraintStart_toStartOf="@+id/tv_count"
-        app:layout_constraintTop_toTopOf="@+id/textView7" />
+        android:layout_height="@dimen/btn_clear"
+        android:layout_marginStart="86dp"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="@+id/textView7" >
+
+        <ImageView
+            android:id="@+id/toggle_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_bs_off_a" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:orientation="horizontal" >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="12dp"
+                android:text="@string/bs_on"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bs_off"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/bs_top"
         android:text="@string/serial_port"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="@dimen/bs_font"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -90,10 +136,10 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/bs_top"
         android:text="@string/exit_tips"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="@dimen/bs_font"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -101,22 +147,24 @@
         android:id="@+id/btn_exit_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="86dp"
         android:backgroundTint="@color/gray_deep"
         android:minWidth="10dp"
         android:minHeight="20dp"
         android:text="@string/exit_tips"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/edit_serial"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <Spinner
         android:id="@+id/edit_serial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:popupBackground="@color/black"
+        android:layout_marginStart="86dp"
         android:backgroundTint="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/toggle_login"
+        android:popupBackground="@color/black"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
 
 
@@ -125,25 +173,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/energy_bg"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/bs_top"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="@dimen/bs_font"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <ImageView
         android:id="@+id/btn_energy_minus"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/bs_btn"
+        android:layout_height="@dimen/bs_btn"
+        android:layout_marginStart="86dp"
         android:src="@drawable/img_bg_minus"
-        app:layout_constraintStart_toStartOf="@+id/toggle_login"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/tv_energy_value"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:paddingStart="36dp"
+        android:layout_height="@dimen/bs_btn"
+        android:paddingStart="@dimen/bs_btn"
         android:paddingEnd="36dp"
         android:gravity="center"
         android:background="@color/white"
@@ -154,8 +204,8 @@
 
     <ImageView
         android:id="@+id/btn_energy_plus"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/bs_btn"
+        android:layout_height="@dimen/bs_btn"
         android:src="@drawable/img_bs_plus"
         app:layout_constraintBottom_toBottomOf="@+id/tv_energy_value"
         app:layout_constraintStart_toEndOf="@+id/tv_energy_value"
@@ -165,27 +215,29 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/bs_top"
         android:text="@string/voltage"
-        android:textSize="30sp"
+        android:textSize="@dimen/bs_font"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <ImageView
         android:id="@+id/btn_voltage_minus"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/bs_btn"
+        android:layout_height="@dimen/bs_btn"
+        android:layout_marginStart="86dp"
         android:backgroundTint="@color/black"
         android:src="@drawable/img_bg_minus"
-        app:layout_constraintStart_toStartOf="@+id/btn_energy_minus"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/tv_voltage_value"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:paddingStart="36dp"
+        android:layout_height="@dimen/bs_btn"
+        android:paddingStart="@dimen/bs_btn"
         android:paddingEnd="36dp"
         android:background="@color/white"
         android:gravity="center"
@@ -196,8 +248,8 @@
 
     <ImageView
         android:id="@+id/btn_voltage_plus"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/bs_btn"
+        android:layout_height="@dimen/bs_btn"
         android:backgroundTint="@color/black"
         android:src="@drawable/img_bs_plus"
         app:layout_constraintBottom_toBottomOf="@+id/tv_voltage_value"

@@ -34,7 +34,7 @@
 
         <ImageView
             android:id="@+id/toggle_group"
-            android:layout_width="210dp"
+            android:layout_width="@dimen/toggle_group"
             android:layout_height="wrap_content"
             android:src="@drawable/img_1064"
             app:layout_constraintEnd_toEndOf="parent"
@@ -178,7 +178,7 @@
             android:id="@+id/toggle_switch"
             android:layout_width="@dimen/toggle_switch"
             android:layout_height="@dimen/toggle_switch"
-            android:layout_marginBottom="46dp"
+            android:layout_marginBottom="@dimen/toggle_switch_btm"
             android:checked="false"
             android:src="@drawable/ic_stop"
             android:textOff=""
@@ -201,33 +201,52 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="光斑尺寸" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_off"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginEnd="62dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/img_off"
+        android:text="@string/off"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:background="@drawable/img_button"
         app:layout_constraintBottom_toTopOf="@+id/img_redlight_plus"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_aod"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:singleLine="true"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:layout_marginEnd="24dp"
-        android:src="@drawable/img_aod"
+        android:text="@string/aod"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:background="@drawable/img_button"
         app:layout_constraintBottom_toBottomOf="@+id/btn_off"
         app:layout_constraintEnd_toStartOf="@id/btn_off" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btn_flash"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:singleLine="true"
         android:layout_marginEnd="24dp"
-        android:src="@drawable/img_flash"
+        android:text="@string/flash"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:background="@drawable/img_button"
         app:layout_constraintBottom_toBottomOf="@+id/btn_aod"
-        app:layout_constraintEnd_toStartOf="@id/btn_aod" />
+        app:layout_constraintEnd_toStartOf="@id/btn_aod" >
+
+    </androidx.appcompat.widget.AppCompatTextView>
 
     <ImageView
         android:id="@+id/img_redlight_plus"

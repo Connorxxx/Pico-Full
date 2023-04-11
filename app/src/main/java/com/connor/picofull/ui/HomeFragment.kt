@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
                     }
                     if (it.contains(ISSUED_RED_LIGHT_XX)) {
                         val value = it.substring(it.length - 4).toInt(16)
-                        if (value <= 0 || value >= 10) return@collect
+                        if (value < 0 || value > 10) return@collect
                         viewModel.homeData.readLight = value
                         binding.seekRedLight.progress = value
                     }

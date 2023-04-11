@@ -14,4 +14,11 @@
     <dimen name="home_pulse">24dp</dimen>
     <dimen name="pulse_w">20dp</dimen>
     <dimen name="toggle_switch">160dp</dimen>
+    <dimen name="bs_top">32dp</dimen>
+    <dimen name="bs_font">30sp</dimen>
+    <dimen name="btn_off">60dp</dimen>
+    <dimen name="toggle_group">210dp</dimen>
+    <dimen name="toggle_switch_btm">46dp</dimen>
+    <dimen name="btn_clear">80dp</dimen>
+    <dimen name="bs_btn">30dp</dimen>
 </resources>

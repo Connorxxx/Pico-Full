@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                         if (NormalSerial.instance().isOpen) {
                             NormalSerial.instance().close()
                         }
-                        "open $it".logCat()
+                        "s open $it".logCat()
                         it?.let {
                             "it? $it".logCat()
                             viewModel.serialPort = it
@@ -157,7 +157,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 launch {
                     viewModel.receiveEvent.collect {
-                        it.logCat()
                         when (it) {
                             GOTO_SETTINGS, GOTO_SETTINGS.uppercase() -> {
                                 navController.navigate(R.id.action_global_settingsFragment)
@@ -165,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                             }
                             GOTO_VIDEO, GOTO_VIDEO.uppercase() -> {
                                 navController.navigate(R.id.action_global_videoFragment)
-                                binding.radioSettings.isChecked = true
+                                binding.radioVideo.isChecked = true
                             }
                             GOTO_ABOUT, GOTO_ABOUT.uppercase() -> {
                                 navController.navigate(R.id.action_global_aboutFragment)
@@ -193,8 +192,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         onBackPressedDispatcher.addCallback(this) {
-            if (navController.currentDestination?.id == R.id.homeFragment) "not here".logCat()
-            else gotoHome()
+            if (navController.currentDestination?.id == R.id.homeFragment) {
+                if (BuildConfig.DEBUG) finish()
+            } else gotoHome()
         }
     }
 

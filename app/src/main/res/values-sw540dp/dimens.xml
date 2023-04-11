@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stroke_width">54dp</dimen>
+    <dimen name="text_size">12sp</dimen>
+    <dimen name="scale_margin">52dp</dimen>
+
+    <dimen name="energy_wh">300dp</dimen>
+    <dimen name="energy_text">56dp</dimen>
+    <dimen name="energy_rg">44dp</dimen>
+    <dimen name="home_three">-60dp</dimen>
+    <dimen name="control">26dp</dimen>
+    <dimen name="home_rg">22dp</dimen>
+    <dimen name="home_btn">30dp</dimen>
+    <dimen name="home_pulse">24dp</dimen>
+    <dimen name="pulse_w">20dp</dimen>
+    <dimen name="toggle_switch">100dp</dimen>
+    <dimen name="bs_top">22dp</dimen>
+    <dimen name="bs_font">24sp</dimen>
+    <dimen name="btn_off">40dp</dimen>
+    <dimen name="toggle_group">190dp</dimen>
+    <dimen name="toggle_switch_btm">26dp</dimen>
+    <dimen name="btn_clear">60dp</dimen>
+    <dimen name="bs_btn">25dp</dimen>
+</resources>

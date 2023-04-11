@@ -25,6 +25,9 @@ class Test @JvmOverloads constructor(
 
     private lateinit var s: ScaleData
 
+    private val startAngle = 155f
+    private val sweepAngle = 230f
+
     private val paint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = 20f
@@ -103,8 +106,8 @@ class Test @JvmOverloads constructor(
         val tickLength = 40f // length of each tick
         val tickStartRadius = radius - 20f // radius of tick start
         val tickEndRadius = radius - tickLength // radius of tick end
-        val tickAngle = 210f / 40f // angle between each tick
-        val tickStartAngle = 165f + tickAngle / 2f // starting angle of ticks
+        val tickAngle = sweepAngle / 40f // angle between each tick
+        val tickStartAngle = startAngle + tickAngle / 2f // starting angle of ticks
 
         s = ScaleData(
             centerX,
@@ -118,16 +121,16 @@ class Test @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        val p = progress * 2.1f
+        val p = progress * sweepAngle / 100f
 
-        val endAngle = 165f + p
+        val endAngle = startAngle + p
         val endX = width / 2f + radius * cos(endAngle * PI / 180f).toFloat()
         val endY = height / 2f + radius * sin(endAngle * PI / 180f).toFloat()
 
         canvas?.apply {
 
-            drawArc(rectF, 165f, 210f, false, bgPaint)
-            drawArc(rectF, 165f, p, false, paint)
+            drawArc(rectF, startAngle, sweepAngle, false, bgPaint)
+            drawArc(rectF, startAngle, p, false, paint)
             drawCircle(endX, endY, 12f, fcPaint)
             drawCircle(endX, endY, 12f, cPaint)
             drawScale(39, bgScalePaint)

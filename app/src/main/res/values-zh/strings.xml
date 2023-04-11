@@ -50,10 +50,13 @@
     <string name="power_err">激光电源故障，请重启！！！</string>
     <string name="temp_hight">温度太高了！！！</string>
     <string name="xenon_alert">氙灯文火失败，请重启！！！</string>
-    <string name="flow_alert">水流错误</string>
+    <string name="flow_alert">水流错误！！！</string>
     <string name="power_alert">激光电源故障，请重启！！！</string>
     <string name="input_serial">输入串口</string>
     <string name="input_password">请输入密码</string>
     <string name="password_err">密码错误</string>
     <string name="current_serial_port">当前串口： %1$s</string>
+    <string name="bs_on">开启</string>
+    <string name="bs_off">关闭</string>
+    <string name="bs_reset">清除</string>
 </resources>

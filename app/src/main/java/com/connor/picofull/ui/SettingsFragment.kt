@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.connor.picofull.R
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.FragmentSettingsBinding
 import com.connor.picofull.utils.getHexString
+import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.repeatOnStart
 import com.connor.picofull.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -32,21 +35,51 @@ class SettingsFragment : Fragment() {
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        if (viewModel.settingsData.buzz) binding.radioBuzzOn.isChecked =
-            true else binding.radioBuzzOff.isChecked = true
+        if (viewModel.settingsData.buzz) {
+            binding.radioBuzzOn.isChecked = true
+            viewModel.settingsData.fromUser = false
+        } else {
+            binding.radioBuzzOff.isChecked = true
+            viewModel.settingsData.fromUser = false
+        }
         binding.seekVolume.progress = viewModel.settingsData.volume
         viewModel.settingsData.language?.let { binding.rgLanguage.check(it) }
         binding.rgBuzz.setOnCheckedChangeListener { _, id ->
-            when (id) {
-                R.id.radio_buzz_off -> {
-                    viewModel.sendHex(UPLOAD_BUZZ_OFF)
-                    viewModel.settingsData.buzz = false
-                }
-                R.id.radio_buzz_on -> {
-                    viewModel.sendHex(UPLOAD_BUZZ_ON)
-                    viewModel.settingsData.buzz = true
+            lifecycleScope.launch {
+                delay(100)
+                "---------------from user ${viewModel.settingsData.fromUser}--------------".logCat()
+                when (id) {
+                    R.id.radio_buzz_off -> {
+                        if (binding.radioBuzzOff.isChecked && viewModel.settingsData.fromUser) {
+                            "buzz click off".logCat()
+                            viewModel.sendHex(UPLOAD_BUZZ_OFF)
+                            viewModel.settingsData.buzz = false
+                            viewModel.settingsData.fromUser = false
+                        }
+                    }
+                    R.id.radio_buzz_on -> {
+                        if (binding.radioBuzzOn.isChecked && viewModel.settingsData.fromUser) {
+                            "buzz click on".logCat()
+                            viewModel.sendHex(UPLOAD_BUZZ_ON)
+                            viewModel.settingsData.buzz = true
+                            viewModel.settingsData.fromUser = false
+                        }
+                    }
                 }
             }
+
+        }
+        binding.radioBuzzOff.setOnClickListener {
+         //   if (!viewModel.settingsData.fromUser) {
+                viewModel.settingsData.fromUser = true
+                binding.radioBuzzOff.isChecked = true
+          //  }
+        }
+        binding.radioBuzzOn.setOnClickListener {
+          //  if (!viewModel.settingsData.fromUser) {
+                viewModel.settingsData.fromUser = true
+                binding.radioBuzzOn.isChecked = true
+          //  }
         }
         binding.rgLanguage.setOnCheckedChangeListener { _, id ->
             viewModel.storeLanguage(id)
@@ -81,8 +114,16 @@ class SettingsFragment : Fragment() {
             launch {
                 viewModel.receiveEvent.collect {
                     when (it) {
-                        ISSUED_BUZZ_OFF -> binding.radioBuzzOff.isChecked = true
-                        ISSUED_BUZZ_ON -> binding.radioBuzzOn.isChecked = true
+                        ISSUED_BUZZ_OFF -> {
+                            viewModel.settingsData.fromUser = false
+                            viewModel.settingsData.buzz = false
+                            binding.radioBuzzOff.isChecked = true
+                        }
+                        ISSUED_BUZZ_ON -> {
+                            viewModel.settingsData.fromUser = false
+                            viewModel.settingsData.buzz = true
+                            binding.radioBuzzOn.isChecked = true
+                        }
                     }
                     if (it.contains(ISSUED_VOLUME_X)) {
                         val value = it.substring(it.length - 2).toInt(16)

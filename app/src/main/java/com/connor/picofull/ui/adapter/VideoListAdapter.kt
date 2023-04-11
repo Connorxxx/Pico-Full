@@ -34,7 +34,7 @@ class VideoListAdapter @Inject constructor(@ActivityContext val context: Context
         }
     }
 
-    var listener: ((VideoInfo) -> Unit?)? = null
+    private var listener: ((VideoInfo) -> Unit?)? = null
 
     fun setClickListener(listener: (VideoInfo) -> Unit) {
         this.listener = listener

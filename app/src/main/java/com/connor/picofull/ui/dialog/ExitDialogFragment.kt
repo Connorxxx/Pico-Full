@@ -20,6 +20,11 @@ class ExitDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = DialogExitBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.btnExit.setOnClickListener {
             if (binding.editInputPass.text.toString() == "123456") {
                 activity?.finish()
@@ -28,7 +33,6 @@ class ExitDialogFragment : DialogFragment() {
         binding.btnCancel.setOnClickListener {
             dismiss()
         }
-        return binding.root
     }
 
     override fun onDestroy() {

@@ -22,29 +22,9 @@ class DataStoreManager @Inject constructor(@ApplicationContext context: Context)
 
     private val getDataStore = context.dataStore
 
-    private val languageID = intPreferencesKey("language_id")
-
-    private val waveState = booleanPreferencesKey("wave_state")
-
     private val serialPort = stringPreferencesKey("serial_port")
 
-    val languageFlow = getDataStore.data.map { it[languageID] }.flowOn(Dispatchers.IO)
-
-    val waveFLow = getDataStore.data.map { it[waveState] ?: false }.flowOn(Dispatchers.IO)
-
     val serialFlow = getDataStore.data.map { it[serialPort]}
-
-    suspend fun storeLanguage(value: Int) {
-        getDataStore.edit {
-            withContext(Dispatchers.IO) { it[languageID] = value }
-        }
-    }
-
-    suspend fun storeWave(value: Boolean) {
-        getDataStore.edit {
-            withContext(Dispatchers.IO) { it[waveState] = value}
-        }
-    }
 
     suspend fun storeSerial(value: String) {
         getDataStore.edit {

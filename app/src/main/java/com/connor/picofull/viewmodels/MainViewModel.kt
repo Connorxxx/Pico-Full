@@ -13,6 +13,8 @@ import com.connor.picofull.constant.UPLOAD_1064
 import com.connor.picofull.constant.UPLOAD_532
 import com.connor.picofull.constant.videoPath
 import com.connor.picofull.datastores.DataStoreManager
+import com.connor.picofull.datastores.LanguageDatastore
+import com.connor.picofull.datastores.WaveDatastore
 import com.connor.picofull.models.BackstageData
 import com.connor.picofull.models.HomeData
 import com.connor.picofull.models.SettingsData
@@ -33,7 +35,11 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreManager) :
+class MainViewModel @Inject constructor(
+    private val dataStoreManager: DataStoreManager,
+    private val waveDatastore: WaveDatastore,
+    private val languageDatastore: LanguageDatastore
+) :
     ViewModel() {
 
     val homeData = HomeData()
@@ -52,7 +58,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
     private val _btnEvent = MutableSharedFlow<BtnType>()
     val btnEvent = _btnEvent.asSharedFlow()
 
-    val waveState = dataStoreManager.waveFLow.stateIn(
+    val waveState = waveDatastore.waveFLow.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         false
@@ -80,7 +86,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
             viewModelScope.launch { _receiveEvent.emit(data) }
         }
 
-        dataStoreManager.languageFlow.filterNotNull().onEach { id ->
+        languageDatastore.languageFlow.filterNotNull().onEach { id ->
             settingsData.language = id
             when (id) {
                 R.id.btn_chinese -> {
@@ -141,6 +147,7 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
 
 
     fun sendHex(hex: String) {
+        "sen Hex $hex".logCat()
         sendHexList.add(hex)
         remainingTime = 10L
         NormalSerial.instance().sendHex(hex)
@@ -154,13 +161,13 @@ class MainViewModel @Inject constructor(private val dataStoreManager: DataStoreM
 
     fun storeLanguage(value: Int) {
         viewModelScope.launch {
-            dataStoreManager.storeLanguage(value)
+            languageDatastore.storeLanguage(value)
         }
     }
 
     fun storeWave(value: Boolean) {
         viewModelScope.launch {
-            dataStoreManager.storeWave(value)
+            waveDatastore.storeWave(value)
         }
     }
 
