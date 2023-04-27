@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.connor.picofull.R
@@ -102,7 +103,8 @@ class PlayVideoFragment : Fragment() {
             player.play()
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_playVideoFragment_to_videoFragment)
+           // findNavController().navigate(R.id.action_playVideoFragment_to_videoFragment)
+            findNavController().navigate(R.id.action_playVideoFragment_to_videoFragment,arguments, NavOptions.Builder().setPopUpTo(R.id.playVideoFragment,true).build())
         }
         val audioManager = requireActivity().getSystemService(AUDIO_SERVICE) as AudioManager
         val max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
@@ -128,12 +130,17 @@ class PlayVideoFragment : Fragment() {
         player.release()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        player.stop()
-        player.release()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
         _videoBinding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        "PlayDestroy".logCat()
+        player.stop()
+        player.release()
     }
 
 }

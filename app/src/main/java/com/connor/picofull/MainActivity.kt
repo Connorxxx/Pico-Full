@@ -17,6 +17,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.connor.picofull.constant.*
 import com.connor.picofull.databinding.ActivityMainBinding
+import com.connor.picofull.ui.HomeFragmentDirections
+import com.connor.picofull.ui.SettingsFragmentDirections
 import com.connor.picofull.ui.dialog.AlertDialogFragment
 import com.connor.picofull.utils.logCat
 import com.connor.picofull.utils.showToast
@@ -112,6 +114,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.radio_settings -> {
                     if (binding.radioSettings.isChecked) {
                         navController.navigate(R.id.action_global_settingsFragment)
+                        navController.backQueue.forEach {
+                            it.destination.displayName.logCat()
+                        }
                         viewModel.sendHex(UPLOAD_SETTINGS)
                     }
                 }
@@ -204,11 +209,6 @@ class MainActivity : AppCompatActivity() {
         hideSystemUI(window)
     }
 
-    override fun onResume() {
-        super.onResume()
-        "onResume".logCat()
-    }
-
     private fun sandVisible(visible: Boolean) {
         binding.radioSettings.isVisible = visible
         binding.radioVideo.isVisible = visible
@@ -228,12 +228,6 @@ class MainActivity : AppCompatActivity() {
             v.onApplyWindowInsets(windowInsets)
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        "Destroy".logCat()
-    }
-
 
     companion object {
         private const val TAG = "PICO_FULL_LOG"
